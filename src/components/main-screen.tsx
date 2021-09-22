@@ -1,6 +1,6 @@
 import React, {FC} from 'react';
 import Form from "./form"
-import VehicleChoose from "./vechicle-choose"
+import ActionPanel from "./action-panel"
 
 interface MainScreenProps {}
 
@@ -9,7 +9,7 @@ const MainScreen: FC<MainScreenProps> = (props) => {
     return (
         <div className="main">
             <Form />
-            <VehicleChoose />
+            <ActionPanel />
         </div>
     );
 }
