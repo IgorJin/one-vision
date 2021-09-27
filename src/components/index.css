@@ -26,7 +26,7 @@
     margin-bottom: 20px;
 }
 
-.form-item:hover {
+.form-item:hover, .form-item.active {
     background: #f7f7f7;
 }
 
@@ -41,7 +41,7 @@
     margin-right: 25px;
 }
 
-.form-item:hover .icon-wrapper {
+.form-item:hover .icon-wrapper, .form-item.active .icon-wrapper {
     background: #61bfa3;
 }
 
@@ -55,7 +55,7 @@
     font-size: 16px;
 }
 
-.form-item:hover .title {
+.form-item:hover .title, .form-item.active .title {
     color: #61bfa3;
 }
 
@@ -65,7 +65,7 @@
     margin-left: auto;
 }
 
-.form-item:hover .arrow {
+.form-item:hover .arrow, .form-item.active .arrow {
     visibility: visible;
 }
 
@@ -104,7 +104,7 @@
 .card-wrapper .image {
     position: relative;
     margin-bottom: 20px;
-    margin-left: 30px;
+    margin-left: 45px;
 }
 
 .card-wrapper .image .background-circle {
