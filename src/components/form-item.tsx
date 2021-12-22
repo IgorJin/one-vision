@@ -8,11 +8,12 @@ interface FormItemProps {
   children: JSX.Element[] | JSX.Element;
   handleChoose(type: string): void;
   type: string;
-  activeType: string
+  activeType: string;
+  choosed?: string;
 }
 
 const FormItem: FC<FormItemProps> = (props) => {
-  const { children, text, type, activeType, handleChoose } = props;
+  const { children, text, type, activeType, choosed, handleChoose } = props;
 
   const chooseCurrentTab = () => {
     handleChoose(type)
@@ -21,10 +22,12 @@ const FormItem: FC<FormItemProps> = (props) => {
   return (
     <div className={cn("form-item", { active: type ===  activeType })} onClick={chooseCurrentTab}>
       <div className="icon-wrapper">{children}</div>
-      <div className="title">{text}</div>
-      <div className="value"></div>
+      <div className="flex">
+        <div className="title">{text}</div>
+        {choosed ? <div className="value">{choosed}</div> : undefined}
+      </div>
       <div className="arrow">
-        <img src={arrow} className="icon" />
+        <img src={arrow} className="icon" alt=""/>
       </div>
     </div>
   );

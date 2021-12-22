@@ -3,7 +3,7 @@
 }
 
 .form {
-    width: calc(50% - 120px);
+    width: calc(40% - 120px);
     padding: 60px;
 }
 
@@ -55,6 +55,12 @@
     font-size: 16px;
 }
 
+.form-item .value {
+    margin-top: 5px;
+    color: #592d91;
+    font-weight: 500;
+}
+
 .form-item:hover .title, .form-item.active .title {
     color: #61bfa3;
 }
@@ -70,10 +76,11 @@
 }
 
 .action-wrapper {
-    margin: 30px;
+    margin: 5px 30px;
     padding: 70px 40px 0 40px;
     border-radius: 30px;
     background: #5a2e92;
+    width: 60%;
 }
 
 .action-wrapper .title {
@@ -89,7 +96,7 @@
 }
 
 .card {
-    width: 250px;
+    width: 200px;
     display: flex;
     justify-content: center;
     flex-direction: column;
@@ -101,31 +108,57 @@
     padding: 20px;
 }
 
+.card.active {
+    background-color: #61bfa3;
+}
+
 .card-wrapper .image {
     position: relative;
     margin-bottom: 20px;
-    margin-left: 45px;
+    margin-left: 60px;
 }
 
 .card-wrapper .image .background-circle {
-    width: 100px;
-    height: 100px;
+    width: 110px;
+    height: 110px;
     background-color: #f2f2f2;
     border-radius: 50%;
+    transition: all .3s;
 }
 
 .card-wrapper .image .vehicle-icon {
-    width: 150px;
+    width: 170px;
     height: 120px;
-    object-fit: fill;
+    object-fit: contain;
     position: absolute;
     right: 10px;
     bottom: -10px;
+    transition: all .3s;
+    z-index: 1;
+}
+
+.card.active .image {
+    margin-left: 70px;
+}
+
+.card.active .image .background-circle {
+    transform: scale(1.2);
+}
+
+.card.active .image .vehicle-icon {
+    transform: scale(1.2);
+}
+
+.card.active .name {
+    margin-top: 10px;
+    font-size: 20px;
 }
 
 .card-wrapper .name {
-    font-size: 18px;
     margin-bottom: 10px;
+    font-weight: bold;
+    color: #592d91;
+    font-size: 18px;
 }
 
 .card-wrapper .capacity {
@@ -136,4 +169,30 @@
 .card-wrapper .size {
     margin-bottom: 10px;
     font-size: 14px;
+}
+
+.card-wrapper .book-button {
+    width: 100%;
+    padding: 15px 0;
+    border: none;
+    border-radius: 10px;
+    color: white;
+    background-color: #61bfa3;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.card.active .card-subfields {
+    display: none;
+}
+
+.card-wrapper .field-name {
+    color: #a0a1a1;
+}
+
+.flex {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
 }

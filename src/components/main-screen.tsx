@@ -7,6 +7,7 @@ interface MainScreenProps {}
 
 const MainScreen: FC<MainScreenProps> = (props) => {
     const [activeType, setActiveType] = useState(FORM_TYPES.vehicle)
+    const [vechicle, setVechicle] = useState<string | null>(null)
     
     const handleChoose = (type: string) => {
         setActiveType(type)
@@ -14,8 +15,8 @@ const MainScreen: FC<MainScreenProps> = (props) => {
 
     return (
         <div className="main">
-            <Form handleChoose={handleChoose} activeType={activeType}/>
-            <ActionPanel type={activeType}/>
+            <Form handleChoose={handleChoose} activeType={activeType} vechicle={vechicle}/>
+            <ActionPanel type={activeType} setVechicle={setVechicle} vechicle={vechicle}/>
         </div>
     );
 }
