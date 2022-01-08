@@ -1,12 +1,12 @@
 import React, { FC, useState } from 'react'
 import GoogleMapReact from 'google-map-react';
 
-const Map = () => {
-  interface CenterPoint {
-    lat: number;
-    lng: number;
-  }
+interface CenterPoint {
+  lat: number;
+  lng: number;
+}
 
+const Map = () => {
   const [center, setCenter] = useState<CenterPoint>({ lat: 59.955413, lng: 30.337844 })
   const [zoom, setZoom] = useState<number>(11)
 

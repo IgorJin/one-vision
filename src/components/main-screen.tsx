@@ -1,22 +1,22 @@
 import React, {FC, useState} from 'react';
 import Form from "./form"
 import ActionPanel from "./action-panel"
-import { FORM_TYPES } from "../utils/constants"
 
 interface MainScreenProps {}
 
 const MainScreen: FC<MainScreenProps> = (props) => {
-    const [activeType, setActiveType] = useState(FORM_TYPES.vehicle)
     const [vechicle, setVechicle] = useState<string | null>(null)
-    
-    const handleChoose = (type: string) => {
-        setActiveType(type)
-    }   
+    const [date, setDate] = useState<Date>(new Date())
 
     return (
         <div className="main">
-            <Form handleChoose={handleChoose} activeType={activeType} vechicle={vechicle}/>
-            <ActionPanel type={activeType} setVechicle={setVechicle} vechicle={vechicle}/>
+            <Form vechicle={vechicle} date={date}/>
+            <ActionPanel 
+                date={date} 
+                vechicle={vechicle} 
+                setDate={setDate}
+                setVechicle={setVechicle} 
+            />
         </div>
     );
 }

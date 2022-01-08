@@ -1,25 +1,37 @@
 import React, {FC, useState} from 'react';
-import VechicleChoosePanel from './vechicle-choose-panel'
+import VechicleChoosePage from './vechicle-choose-panel'
 import Map from './map'
-import { FORM_TYPES } from "../utils/constants"
+import CalendarPage from './calendar'
+import PaymentPage from './payment'
+import { Switch, Route, useRouteMatch } from "react-router-dom";
+import { FORM_TYPES } from '../utils/constants'
 
 interface MainScreenProps {
-    type: string;
     vechicle: string | null;
     setVechicle(id: string): void; 
+    date: Date;
+    setDate(date: Date): void;
 }
 
 const ActionPanel: FC<MainScreenProps> = (props) => {
-    const { type, vechicle, setVechicle } = props
-
+    const {vechicle, date, setVechicle, setDate } = props
+    
     return (
         <div className="action-wrapper">
-            {type === FORM_TYPES.location ? (
-                <Map />
-            ) : undefined}
-            {type === FORM_TYPES.vehicle ? (
-                <VechicleChoosePanel setVechicle={setVechicle} vechicle={vechicle}/>
-            ) : undefined}
+            <Switch>
+                <Route path={`/${FORM_TYPES.location}`}>
+                    <Map />
+                </Route>  
+                <Route path={`/${FORM_TYPES.vehicle}`}>
+                    <VechicleChoosePage setVechicle={setVechicle} vechicle={vechicle}/>
+                </Route> 
+                <Route path={`/${FORM_TYPES.date}`}>
+                    <CalendarPage date={date} setDate={setDate}/>
+                </Route> 
+                <Route path={`/${FORM_TYPES.payment}`}>
+                    <PaymentPage />
+                </Route>  
+            </Switch>
         </div>
     );
 }
