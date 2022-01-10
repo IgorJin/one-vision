@@ -1,255 +1,276 @@
 .main {
-    display: flex;
+  display: flex;
+}
+
+.link {
+  text-decoration: none;
 }
 
 .form {
-    width: calc(40% - 120px);
-    padding: 60px;
+  width: calc(40% - 140px);
+  padding: 70px;
+  margin-left: 130px;
 }
 
 .form > .title {
-    font-weight: bold;
-    color: #592d91;
-    font-size: 28px;
-    margin-bottom: 50px;
+  font-weight: bold;
+  color: #592d91;
+  font-size: 28px;
+  margin-bottom: 50px;
 }
 
 /* form-item */
 .form-item {
-    cursor: pointer;
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-    border-radius: 20px;
-    border: 1px solid #f2f2f2;
-    padding: 15px;
-    margin-bottom: 20px;
+  cursor: pointer;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  border-radius: 20px;
+  border: 1px solid #f2f2f2;
+  padding: 15px;
+  margin-bottom: 20px;
 }
 
-.form-item:hover, .form-item.active {
-    background: #f7f7f7;
+.form-item:hover,
+.form-item.active {
+  background: #f7f7f7;
 }
 
 .form-item .icon-wrapper {
-    width: 60px;
-    height: 60px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background: #eeeeee;
-    border-radius: 20px;
-    margin-right: 25px;
+  width: 60px;
+  height: 60px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #eeeeee;
+  border-radius: 20px;
+  margin-right: 25px;
 }
 
-.form-item:hover .icon-wrapper, .form-item.active .icon-wrapper {
-    background: #61bfa3;
+.form-item:hover .icon-wrapper,
+.form-item.active .icon-wrapper {
+  background: #61bfa3;
 }
 
 .form-item .icon-wrapper .icon {
-    width: 30px;
-    height: 30px;
+  width: 30px;
+  height: 30px;
 }
 
 .form-item .title {
-    color: #a0a1a1;
-    font-size: 16px;
+  color: #a0a1a1;
+  font-size: 16px;
 }
 
 .form-item .value {
-    margin-top: 5px;
-    color: #592d91;
-    font-weight: 500;
+  margin-top: 5px;
+  color: #592d91;
+  font-weight: 500;
 }
 
-.form-item:hover .title, .form-item.active .title {
-    color: #61bfa3;
+.form-item:hover .title,
+.form-item.active .title {
+  color: #61bfa3;
 }
 
 .form-item .arrow {
-    visibility: hidden;
-    width: 20px;
-    margin-left: auto;
+  visibility: hidden;
+  width: 20px;
+  margin-left: auto;
 }
 
-.form-item:hover .arrow, .form-item.active .arrow {
-    visibility: visible;
+.form-item:hover .arrow,
+.form-item.active .arrow {
+  visibility: visible;
 }
 
 .action-wrapper {
-    margin: 5px 30px;
-    padding: 70px 40px 0 40px;
-    border-radius: 30px;
-    background: #5a2e92;
-    width: 60%;
+  margin: 5px 30px;
+  padding: 70px 40px 0 40px;
+  border-radius: 30px;
+  background: #5a2e92;
+  width: 60%;
 }
 
 .action-wrapper .title {
-    color: white;
-    margin: 0;
-    margin-bottom: 30px;
+  color: white;
+  margin: 0;
+  margin-bottom: 30px;
 }
 
 /* vehicle-choose */
 .card-wrapper {
-    display: flex;
-    flex-wrap: wrap;
+  display: flex;
+  flex-wrap: wrap;
 }
 
 .card {
-    width: 200px;
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
-    align-items: center;
-    margin-right: 40px;
-    margin-bottom: 40px;
-    background-color: white;
-    border-radius: 30px;
-    padding: 20px;
+  width: 200px;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  margin-right: 40px;
+  margin-bottom: 40px;
+  background-color: white;
+  border-radius: 30px;
+  padding: 20px;
 }
 
 .card.active {
-    background-color: #61bfa3;
+  background-color: #61bfa3;
 }
 
 .card-wrapper .image {
-    position: relative;
-    margin-bottom: 20px;
-    margin-left: 60px;
+  position: relative;
+  margin-bottom: 20px;
+  margin-left: 60px;
 }
 
 .card-wrapper .image .background-circle {
-    width: 110px;
-    height: 110px;
-    background-color: #f2f2f2;
-    border-radius: 50%;
-    transition: all .3s;
+  width: 110px;
+  height: 110px;
+  background-color: #f2f2f2;
+  border-radius: 50%;
+  transition: all 0.3s;
 }
 
 .card-wrapper .image .vehicle-icon {
-    width: 170px;
-    height: 120px;
-    object-fit: contain;
-    position: absolute;
-    right: 10px;
-    bottom: -10px;
-    transition: all .3s;
-    z-index: 1;
+  width: 170px;
+  height: 120px;
+  object-fit: contain;
+  position: absolute;
+  right: 10px;
+  bottom: -10px;
+  transition: all 0.3s;
+  z-index: 1;
 }
 
 .card.active .image {
-    margin-left: 70px;
+  margin-left: 70px;
 }
 
 .card.active .image .background-circle {
-    transform: scale(1.2);
+  transform: scale(1.2);
 }
 
 .card.active .image .vehicle-icon {
-    transform: scale(1.2);
+  transform: scale(1.2);
 }
 
 .card.active .name {
-    margin-top: 10px;
-    font-size: 20px;
+  margin-top: 10px;
+  font-size: 20px;
 }
 
 .card-wrapper .name {
-    margin-bottom: 10px;
-    font-weight: bold;
-    color: #592d91;
-    font-size: 18px;
+  margin-bottom: 10px;
+  font-weight: bold;
+  color: #592d91;
+  font-size: 18px;
 }
 
 .card-wrapper .capacity {
-    margin-bottom: 10px;
-    font-size: 14px;
+  margin-bottom: 10px;
+  font-size: 14px;
 }
 
 .card-wrapper .size {
-    margin-bottom: 10px;
-    font-size: 14px;
+  margin-bottom: 10px;
+  font-size: 14px;
 }
 
 .card-wrapper .book-button {
-    width: 100%;
-    padding: 15px 0;
-    border: none;
-    border-radius: 10px;
-    color: white;
-    background-color: #61bfa3;
-    font-size: 14px;
-    font-weight: bold;
-    cursor: pointer;
+  width: 100%;
+  padding: 15px 0;
+  border: none;
+  border-radius: 10px;
+  color: white;
+  background-color: #61bfa3;
+  font-size: 14px;
+  font-weight: bold;
+  cursor: pointer;
 }
 
 .card.active .card-subfields {
-    display: none;
+  display: none;
 }
 
 .card-wrapper .field-name {
-    color: #a0a1a1;
+  color: #a0a1a1;
 }
 
 .flex {
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
 }
 
 form {
-    .input-group {
-        position: relative;
-    }
+  .input-group {
+    position: relative;
+  }
 
-    .input-group:not(:last-child) {
-        margin-bottom: 15px;
-    }
+  .input-group:not(:last-child) {
+    margin-bottom: 15px;
+  }
 }
 
 .input-label {
-    color: #8d8d8d;
-    position: absolute;
-    top: 27px;
-    left: 22px;
-    background: #ffffff;
-    transition: 300ms;
+  color: #8d8d8d;
+  position: absolute;
+  top: 27px;
+  left: 22px;
+  background: #ffffff;
+  transition: 300ms;
 }
 
 .input-field {
-    outline: none;
-    padding: 22px;
-    border: 2px solid #dadce0;
-    font-size: 18px;
-    border-radius: 5px;
+  outline: none;
+  padding: 22px;
+  border: 2px solid #dadce0;
+  font-size: 18px;
+  border-radius: 5px;
 
-    &::placeholder 
-    {
-        visibility: hidden;
+  &::placeholder {
+    visibility: hidden;
+  }
+
+  &:focus {
+    border: 2px solid #61bfa3;
+
+    &::placeholder {
+      visibility: visible;
     }
+  }
 
-    &:focus
-    {
-        border: 2px solid #61bfa3;
+  &.inputed + .input-label {
+    top: 6px;
+    font-size: 12px;
+    color: #8d8d8d;
+  }
 
-        &::placeholder 
-        {
-            visibility: visible;
-        }
-    }
+  &:focus + .input-label {
+    top: 6px;
+    font-size: 12px;
+    color: #61bfa3;
+    transition: 300ms;
+  }
+}
 
-    &.inputed + .input-label
-    {
-        top: 6px;
-        font-size: 12px;
-        color: #8d8d8d;
-    }
+.button {
+  background-color: #5c29a0;
+  color: white;
+  font-size: 20px;
+  padding: 10px 60px;
+  border-radius: 5px;
+  margin: 10px 0px;
+  cursor: pointer;
+  border: none;
 
-    &:focus + .input-label
-    {
-        top: 6px;
-        font-size: 12px;
-        color: #61bfa3;
-        transition: 300ms;
-    }
+  &:disabled {
+    color: grey;
+    opacity: 0.7;
+    cursor: default;
+  }
 }

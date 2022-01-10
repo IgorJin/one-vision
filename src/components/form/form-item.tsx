@@ -1,7 +1,7 @@
 import React, { FC, useState } from "react";
-import arrow from "../images/right-arrow.svg";
+import arrow from "../../images/right-arrow.svg";
 import { Link, useRouteMatch } from "react-router-dom";
-import "./index.scss";
+import "../index.scss";
 import cn from "classnames";
 
 interface FormItemProps {
@@ -18,7 +18,7 @@ const FormItem: FC<FormItemProps> = (props) => {
 
 
   return (
-    <Link to={type}>
+    <Link to={type} className="link">
       <div className={cn("form-item", { active: type === match.url })}>
         <div className="icon-wrapper">{children}</div>
         <div className="flex">

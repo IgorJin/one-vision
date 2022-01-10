@@ -1,16 +1,17 @@
-import React, { FC, useReducer,useState } from "react";
-import Input from "./Input";
+import React, { FC, useReducer, useState, useEffect } from "react";
+import Input from "../Input";
 import "./payment.scss";
-import cn from 'classnames'
+import cn from "classnames";
 
 interface PaymentChoosePanelProps {
-  // setDate(date: Date): void;
-  // date: Date;
+  paymentInfo: string | null;
+  setPaymentInfo(id: string): void;
 }
 
 enum CardActionEnum {
   NUMBER = "NUMBER",
-  DATE = "DATE",
+  MONTH = "MONTH",
+  YEAR = "YEAR",
   NAME = "NAME",
   CCV = "CCV",
 }
@@ -22,44 +23,54 @@ interface CardAction {
 
 interface CardState {
   number: string;
-  date: string;
+  month: string;
+  year: string;
   name: string;
   ccv: string;
 }
 
 const PaymentPanel: FC<PaymentChoosePanelProps> = (props) => {
-  // const { date, setDate } = props
+  const { paymentInfo, setPaymentInfo } = props;
 
   const cardReducer = (state: CardState, action: CardAction) => {
     const { type, payload } = action;
-    const key = type.toLowerCase()
+    const key = type.toLowerCase();
 
-    return { ...state, [key]: payload }
+    return { ...state, [key]: payload };
   };
 
   const initialState: CardState = {
     number: "",
-    date: "",
+    month: "",
+    year: "",
     name: "",
     ccv: "",
   };
 
   const [state, dispatch] = useReducer(cardReducer, initialState);
-  const [isFocusCvv, setIsFocusCvv] = useState<boolean>(false)
+  const [isFocusCvv, setIsFocusCvv] = useState<boolean>(false);
 
-  const handleChangeValue = (type: CardActionEnum, payload: string) => dispatch({ type, payload });
+  const handleChangeValue = (type: CardActionEnum, payload: string) =>
+    dispatch({ type, payload });
 
   function getDisplayCardNumber(numberInput: any) {
     const placeholder = "****************";
     const newPlaceholder = placeholder.substr(numberInput.length);
-  
+
     return numberInput.concat("", newPlaceholder).match(/.{1,4}/g);
   }
 
-  const cardName = state.name.length < 1 ? 'Name' : state.name
-  const cardNumber = getDisplayCardNumber(state.number)
-  const cardCode = state.ccv.length < 1 ? '***' : state.ccv
-  const cardDate = state.date.length < 1 ? '00/00' : state.date
+  const cardName = state.name.length < 1 ? "Name" : state.name;
+  const cardNumber = getDisplayCardNumber(state.number);
+  const cardCode = state.ccv.length < 1 ? "***" : state.ccv;
+  const cardDate =
+    state.month.length < 1 && state.year.length < 1
+      ? "00/00"
+      : `${state.month}/${state.year}`;
+      
+  useEffect(() => {
+    setPaymentInfo(state.number);
+  }, [setPaymentInfo, state.number]);
 
   return (
     <div className="payment">
@@ -83,7 +94,7 @@ const PaymentPanel: FC<PaymentChoosePanelProps> = (props) => {
             <div className="payment-card__ccv">{cardCode}</div>
           </div>
         </div>
-
+        {/* TODO to map */}
         <div className="payment-html-form">
           <form action="">
             <Input
@@ -101,13 +112,24 @@ const PaymentPanel: FC<PaymentChoosePanelProps> = (props) => {
             />
             <Input
               type="text"
-              id="expdate"
-              name="expdate"
-              placeholder="01/22"
-              label="Дата истечения"
-              value={state.date}
+              id="expmonth"
+              name="expmonth"
+              placeholder="00"
+              label="Месяц истечения"
+              value={state.month}
               handleChange={(v: string) =>
-                handleChangeValue(CardActionEnum.DATE, v)
+                handleChangeValue(CardActionEnum.MONTH, v)
+              }
+            />
+            <Input
+              type="text"
+              id="expyear"
+              name="expyear"
+              placeholder="00"
+              label="Год истечения"
+              value={state.year}
+              handleChange={(v: string) =>
+                handleChangeValue(CardActionEnum.YEAR, v)
               }
             />
             <Input

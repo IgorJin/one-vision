@@ -12,6 +12,8 @@ const CalendarPanel: FC<CalendarChoosePanelProps> = (props) => {
 
   return (
     <div>
+        <h2 className="header__title">Выберите дату</h2>
+
        <Calendar
           onChange={setDate}
           value={date}

@@ -16,7 +16,7 @@ const VechicleCard: FC<VechicleCardProps> = (props) => {
   const { id, src, name, capacity, size, price, isChoosen, setVechicle } = props
 
   return (
-    <div className={cn("card", { active: isChoosen })} key={id}>
+    <div className={cn("card", { active: isChoosen })}>
       <div className="image">
         <img className="vehicle-icon" src={src} alt="" />
         <div className="background-circle"></div>

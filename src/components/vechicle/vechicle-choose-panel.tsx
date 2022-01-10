@@ -1,6 +1,6 @@
 import React, { FC, useState } from "react";
 import Card from './vechicle-card'
-import { cards } from '../utils/constants' 
+import { cards } from '../../utils/constants' 
 
 interface VechicleChoosePanelProps {
   setVechicle(id: string): void; 
@@ -12,11 +12,12 @@ const VechicleChoosePanel: FC<VechicleChoosePanelProps> = (props) => {
   
   return (
     <React.Fragment>
-      <h2 className="title">Choose vecicle</h2>
+      <h2 className="title">Выберите транспорт</h2>
 
       <div className="card-wrapper">
         {cards.map((card) => (
           <Card 
+            key={card.id}
             src={card.src}
             name={card.name}
             capacity={card.capacity}
