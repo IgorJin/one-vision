@@ -1,0 +1,36 @@
+.document-wrapper {
+  display: flex;
+}
+
+.project-container {
+  overflow-y: scroll;
+  width: 80%;
+
+  & > div {
+    width: 100vw;
+    overflow-y: scroll;
+  }
+
+  .hovered {
+    box-shadow: 0px 0px 0px 5px #3614FF;
+    pointer-events: none !important;
+  }
+
+  .hovered > * {
+    pointer-events: all;
+  }
+
+
+} 
+
+.editor-container {
+  position: fixed;
+  width: 20%;
+  display: flex;
+  justify-content: center;
+  border-left: 5px solid black;
+  right: 0;
+  height: 100vh;
+  word-break: break-word;
+  overflow-x: scroll;
+}
