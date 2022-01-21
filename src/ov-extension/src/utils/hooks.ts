@@ -48,6 +48,7 @@ export function useEventListener<
     }
 
     targetElement.addEventListener(eventName, eventListener)
+    console.log('create ', eventName, ' listener')
 
     // Remove event listener on cleanup
     return () => {

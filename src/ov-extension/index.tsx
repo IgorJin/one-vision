@@ -1,1 +1,1 @@
-export { default as ClickListener } from "./src/editor";
+export { default as ClickListener } from "./src/editor-mode";

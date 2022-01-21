@@ -13,14 +13,7 @@
 
   .hovered {
     box-shadow: 0px 0px 0px 5px #3614FF;
-    pointer-events: none !important;
   }
-
-  .hovered > * {
-    pointer-events: all;
-  }
-
-
 } 
 
 .editor-container {

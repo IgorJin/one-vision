@@ -16,7 +16,6 @@ const FormItem: FC<FormItemProps> = (props) => {
 
   const match = useRouteMatch();
 
-
   return (
     <Link to={type} className="link">
       <div className={cn("form-item", { active: type === match.url })}>
