@@ -4,10 +4,14 @@ import { EditorContext } from "../store/editor-context";
 import "./index.scss";
 
 const BuiltInButton = () => {
-  const { isActive, setIsActive } = React.useContext(EditorContext);
+  const { isEditorModeActivated, setIsEditorModeActivated } =
+    React.useContext(EditorContext);
 
   return (
-    <div className="built-in-button" onClick={() => setIsActive(!isActive)}>
+    <div
+      className="built-in-button"
+      onClick={() => setIsEditorModeActivated(!isEditorModeActivated)}
+    >
       <div className="inner">
         <img src={SelectIcon} alt="" />
         <span>Изменить</span>

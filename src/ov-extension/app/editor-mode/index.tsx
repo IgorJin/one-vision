@@ -1,25 +1,21 @@
-import React, {
-  FC,
-  useRef,
-  createRef,
-  useEffect,
-  useState,
-  useReducer,
-} from "react";
+import React, { FC, createRef, useState } from "react";
 import BuiltInButton from "../built-in-button";
 import EditorProvider, { EditorContext } from "../store/editor-context";
 import { useEventListener } from "../utils/hooks";
-import ToolbarButton, { ToolbarState } from "./toolbar/toolbar";
+import ToolbarPanel, { ToolbarState } from "./toolbar/toolbar";
+import EditorPanel from "./editor-panel"
 import "./index.scss";
 
 interface EventListenerProps {
   children?: React.ReactNode;
 }
 
-const ClickListener: FC<EventListenerProps> = ({
-  children,
-}): React.ReactElement | null => {
-  const { isActive, setIsActive } = React.useContext(EditorContext);
+const ClickListener: FC<EventListenerProps> = ({ children }): React.ReactElement | null => {
+  const {
+    elementRef,
+    isEditorModeActivated,
+    isElementEditing,
+  } = React.useContext(EditorContext);
 
   const toolbarInitialState: ToolbarState = {
     x: 0,
@@ -27,10 +23,8 @@ const ClickListener: FC<EventListenerProps> = ({
     visibility: 0,
   };
 
-  const [toolbarState, setToolbarState] =
-    useState<ToolbarState>(toolbarInitialState);
+  const [toolbarState, setToolbarState] = useState<ToolbarState>(toolbarInitialState);
 
-  const elementRef = useRef<HTMLElement | null>(null);
   const toolbarRef = createRef<HTMLDivElement>();
 
   const clickHandler = (e: any) => {
@@ -48,12 +42,11 @@ const ClickListener: FC<EventListenerProps> = ({
   };
 
   const hoverHandler = (e: any) => {
-    if (e.target.classList.contains("toolbar-wrapper")) {
+    if (e.target.closest(".toolbar-wrapper") || e.target.closest(".editor-container")) {
       console.log("HERE WE GOOO");
       return;
     }
 
-    console.log("ref.current ===>  ", elementRef.current);
     if (elementRef.current) {
       if (elementRef.current.classList.contains("hovered")) {
         (elementRef.current as Element).classList.remove("hovered");
@@ -72,7 +65,7 @@ const ClickListener: FC<EventListenerProps> = ({
 
       setToolbarState({
         ...toolbarState,
-        x: rect.left + rect.width + window.pageXOffset - 50,
+        x: rect.left + rect.width + window.pageXOffset - 50, // TODO with padd or center
         y: rect.top + window.pageYOffset,
         visibility: 1,
       });
@@ -83,19 +76,17 @@ const ClickListener: FC<EventListenerProps> = ({
   };
 
   const outHandler = (e: any) => {
-    console.log("outHandler ", e.target);
+    //console.log("outHandler ", e.target);
   };
 
   // add listeners on events
-  useEventListener("mouseover", hoverHandler);
+  useEventListener("mouseover", hoverHandler, undefined, isElementEditing);
 
-  useEventListener("click", clickHandler);
+  useEventListener("click", clickHandler, undefined, isElementEditing);
 
-  useEventListener("mouseout", outHandler);
+  useEventListener("mouseout", outHandler, undefined, isElementEditing);
 
-  // useEventListener('mousedown', mousedownHandler)
-
-  if (isActive)
+  if (isEditorModeActivated)
     return (
       <React.Fragment>
         {children}
@@ -106,10 +97,8 @@ const ClickListener: FC<EventListenerProps> = ({
   return (
     <div className="document-wrapper">
       <div className="project-container">{children}</div>
-      <div className="editor-container" onClick={() => setIsActive(!isActive)}>
-        EDITOR
-      </div>
-      <ToolbarButton ref={toolbarRef} toolbarState={toolbarState} />
+      <EditorPanel />
+      <ToolbarPanel ref={toolbarRef} toolbarState={toolbarState} />
     </div>
   );
 };

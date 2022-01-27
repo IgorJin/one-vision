@@ -1,10 +1,10 @@
 
 .toolbar-wrapper {
   position: absolute;
-  z-index: 1000000;
   background: #3614FF;
-  width: 40px;
+  width: auto;
   height: 20px;
   transform: translateY(-100%);
   cursor: pointer;
+  z-index: 1000;
 }

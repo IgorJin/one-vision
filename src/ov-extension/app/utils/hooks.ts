@@ -1,18 +1,5 @@
 import { RefObject, useEffect, useRef } from 'react'
 
-export function useEventListener<K extends keyof WindowEventMap>(
-  eventName: K,
-  handler: (event: WindowEventMap[K]) => void,
-): void
-export function useEventListener<
-  K extends keyof HTMLElementEventMap,
-  T extends HTMLElement = HTMLDivElement,
->(
-  eventName: K,
-  handler: (event: HTMLElementEventMap[K]) => void,
-  element: RefObject<T>,
-): void
-
 export function useEventListener<
   KW extends keyof WindowEventMap,
   KH extends keyof HTMLElementEventMap,
@@ -23,6 +10,7 @@ export function useEventListener<
     event: WindowEventMap[KW] | HTMLElementEventMap[KH] | Event,
   ) => void,
   element?: RefObject<T>,
+  needDelete?: boolean,
 ) {
   // Create a ref that stores handler
   const savedHandler = useRef<typeof handler>()
@@ -33,7 +21,7 @@ export function useEventListener<
     if (!(targetElement && targetElement.addEventListener)) {
       return
     }
-
+    
     // Update saved handler if necessary
     if (savedHandler.current !== handler) {
       savedHandler.current = handler
@@ -47,6 +35,11 @@ export function useEventListener<
       }
     }
 
+    if (needDelete) {
+      console.log('delete ', eventName, ' listener')
+      return targetElement.removeEventListener(eventName, eventListener)
+    }
+
     targetElement.addEventListener(eventName, eventListener)
     console.log('create ', eventName, ' listener')
 
@@ -54,5 +47,5 @@ export function useEventListener<
     return () => {
       targetElement.removeEventListener(eventName, eventListener)
     }
-  }, [eventName, element, handler])
+  }, [eventName, element, handler, needDelete])
 }

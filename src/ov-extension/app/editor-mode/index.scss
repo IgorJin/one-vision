@@ -1,0 +1,18 @@
+.document-wrapper {
+  display: flex;
+}
+
+.project-container {
+  overflow-y: scroll;
+  width: 80%;
+
+  & > div {
+    width: 100vw;
+    overflow-y: scroll;
+  }
+
+  .hovered {
+    outline: 3px solid #3614FF !important;
+    outline-offset: -3px;
+  }
+} 

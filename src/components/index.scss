@@ -6,13 +6,13 @@
   text-decoration: none;
 }
 
-.form {
+.main .form {
   width: calc(40% - 140px);
   padding: 70px;
   margin-left: 130px;
 }
 
-.form > .title {
+.main .form > .title {
   font-weight: bold;
   color: #592d91;
   font-size: 28px;
@@ -20,7 +20,7 @@
 }
 
 /* form-item */
-.form-item {
+.main .form-item {
   cursor: pointer;
   display: flex;
   justify-content: flex-start;
