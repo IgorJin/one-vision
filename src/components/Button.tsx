@@ -8,6 +8,7 @@ interface InputProps extends React.InputHTMLAttributes<HTMLButtonElement>{
 
 const Input: React.FC<InputProps> = ({ children, onClick, ...rest }) => {
   const handleOnClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    console.log('react onclick')
     onClick();
   };
 
