@@ -15,7 +15,7 @@ export interface ToolbarState {
 
 const ToolbarButton = forwardRef<HTMLDivElement, ToolbarButtonProps>(
   (props, ref): React.ReactElement => {
-    const { elementRef, isElementEditing, isElementSimple, setIsElementSimple, setIsElementEditing } = React.useContext(EditorContext);
+    const { elementRef, isElementEditing, isElementSimple, setIsElementSimple, setIsElementEditing, setElementInformation } = React.useContext(EditorContext);
 
     const {
       toolbarState: { x, y, visibility },
@@ -29,6 +29,11 @@ const ToolbarButton = forwardRef<HTMLDivElement, ToolbarButtonProps>(
 
       const simplicityCeck = (el: HTMLElement): boolean => el.children.length === 0
 
+      // get styles
+      const elementStyles: CSSStyleDeclaration = window.getComputedStyle(el, null)
+      const textContent: string = el.textContent || ''
+
+      setElementInformation({ text: textContent, styles: elementStyles})
       setIsElementSimple(simplicityCeck(el))
       setIsElementEditing(true)
     };

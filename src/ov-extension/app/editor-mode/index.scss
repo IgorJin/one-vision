@@ -1,14 +1,25 @@
 .document-wrapper {
   display: flex;
+    background: radial-gradient(#e0eaf7 10%, transparent 20%) 0 0, radial-gradient(rgba(0, 0, 0, 0.1) 1%, transparent 6%) 150px 150px;
+    background-color: #f3f6fc;
+    background-size: 20px 20px;
+    height: 100vh;
 }
 
 .project-container {
   overflow-y: scroll;
-  width: 80%;
+  width: calc(80% - 80px);
+  margin: 40px;
+  box-sizing: border-box;
+  border: 3px solid #8080802e;
+  border-radius: 10px;
+  background: white;
 
   & > div {
     width: 100vw;
+    // height: 100%;
     overflow-y: scroll;
+    overflow-x: scroll;
   }
 
   .hovered {

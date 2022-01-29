@@ -17,6 +17,8 @@ const ClickListener: FC<EventListenerProps> = ({ children }): React.ReactElement
     isElementEditing,
   } = React.useContext(EditorContext);
 
+  console.log('EDITOR MODE REBUILD')
+
   const toolbarInitialState: ToolbarState = {
     x: 0,
     y: 0,

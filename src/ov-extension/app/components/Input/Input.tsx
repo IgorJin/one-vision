@@ -1,5 +1,5 @@
 import React from 'react';
-import './index.scss'
+import './Input.scss'
 import cn from 'classnames'
 
 interface InputProps extends React.InputHTMLAttributes<HTMLInputElement>{
@@ -10,15 +10,13 @@ interface InputProps extends React.InputHTMLAttributes<HTMLInputElement>{
 
 const Input: React.FC<InputProps> = ({ id, label, handleChange, ...rest }) => {
   const onChangeHandler = (e: any) => {
-    const { value } = e.target
-
-    handleChange(value || '')
+    handleChange(e.target.value || '')
   }
 
   return (
     <div className="input-group">
-      <input className={cn("input-field", rest.value && "inputed")} id={id} {...rest} onChange={onChangeHandler} />
       <label className="input-label" htmlFor={id} >{label}</label>
+      <input className={cn("input-field", rest.value && "inputed")} id={id} {...rest} onChange={onChangeHandler} />
     </div>
   );
 }
