@@ -9,7 +9,15 @@ const EditorPanel = () => {
   // FORM
   const [elemText, setElemText] = useState<string>("");
   const [elemFs, setElemFs] = useState<string>("");
+
+  const changeElement = (type: any) => (e: any) => {
+    const { value } = e.target
+
+    console.log(type, value)
+  }
+
   console.log('rebuild')
+  
   const formsConfig = {
     text: [
       {
@@ -18,6 +26,7 @@ const EditorPanel = () => {
           label: "Text",
           id: "elem-text",
           handleChange: setElemText,
+          onBlur: changeElement("elem-text"),
           value: elemText,
         },
       },
@@ -25,8 +34,9 @@ const EditorPanel = () => {
         Component: Input,
         props: {
           label: "Font size",
-          id: "elem-text",
+          id: "elem-font",
           handleChange: setElemFs,
+          onBlur: changeElement("elem-font"),
           value: elemFs,
         },
       },
@@ -34,13 +44,8 @@ const EditorPanel = () => {
   };
 
   // TODO нужен один интерфейс - ТИП БЛОКА = ключ в КОНФИГЕ
-  type BlockTypes = {
-    type: 'text',
-  }
-  const BlockFabric = ({ type }: BlockTypes) => (
-    <React.Fragment>
-      {formsConfig[type].map(({ Component, props }) => (<Component {...props} /> ))}
-    </React.Fragment>
+  const blockFabric = (type: 'text') => (
+      formsConfig[type].map(({ Component, props }, idx) => (<Component {...props} key={idx}/> ))
   );
 
   React.useEffect(() => {
@@ -58,14 +63,7 @@ const EditorPanel = () => {
 
       <div className="operations-panel">
         <form className="form">
-          <BlockFabric type="text"/>
-          
-          <Input
-            label="Font size"
-            id="elem-text"
-            handleChange={setElemFs}
-            value={elemFs}
-          />
+          {blockFabric('text')}
         </form>
       </div>
     </div>
