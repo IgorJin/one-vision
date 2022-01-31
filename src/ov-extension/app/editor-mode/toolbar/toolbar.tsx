@@ -2,7 +2,7 @@ import React, { forwardRef } from "react";
 import { EditorContext } from "../../store/editor-context";
 import "./index.scss";
 
-interface ToolbarButtonProps {
+interface ToolbarPanelProps {
   ref: React.RefObject<HTMLDivElement>;
   toolbarState: ToolbarState;
 }
@@ -13,9 +13,9 @@ export interface ToolbarState {
   visibility: number;
 }
 
-const ToolbarButton = forwardRef<HTMLDivElement, ToolbarButtonProps>(
+const ToolbarPanel = forwardRef<HTMLDivElement, ToolbarPanelProps>(
   (props, ref): React.ReactElement => {
-    const { elementRef, isElementEditing, isElementSimple, setIsElementSimple, setIsElementEditing, setElementInformation } = React.useContext(EditorContext);
+    const { elementRef, styleManagerFormRef, isElementEditing, elementSimplicity, setElementSimplicity, setIsElementEditing, setElementInformation } = React.useContext(EditorContext);
 
     const {
       toolbarState: { x, y, visibility },
@@ -27,14 +27,17 @@ const ToolbarButton = forwardRef<HTMLDivElement, ToolbarButtonProps>(
 
       if (!el) return 
 
-      const simplicityCeck = (el: HTMLElement): boolean => el.children.length === 0
+      const simplicityCheck = (el: HTMLElement): boolean => el.childElementCount === 0
 
       // get styles
       const elementStyles: CSSStyleDeclaration = window.getComputedStyle(el, null)
       const textContent: string = el.textContent || ''
 
+      // maybe do it in context 
+      styleManagerFormRef.current?.querySelector('input')?.focus()
+
       setElementInformation({ text: textContent, styles: elementStyles})
-      setIsElementSimple(simplicityCeck(el))
+      setElementSimplicity(simplicityCheck(el))
       setIsElementEditing(true)
     };
 
@@ -67,4 +70,4 @@ const ToolbarButton = forwardRef<HTMLDivElement, ToolbarButtonProps>(
   }
 );
 
-export default ToolbarButton;
+export default ToolbarPanel;

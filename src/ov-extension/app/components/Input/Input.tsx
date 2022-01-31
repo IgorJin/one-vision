@@ -8,7 +8,7 @@ interface InputProps extends React.InputHTMLAttributes<HTMLInputElement>{
     handleChange(v: string): void;
 }
 
-const Input: React.FC<InputProps> = ({ id, label, handleChange, ...rest }) => {
+export const Input: React.FC<InputProps> = ({ id, label, handleChange, ...rest }) => {
   const onChangeHandler = (e: any) => {
     handleChange(e.target.value || '')
   }
@@ -20,5 +20,3 @@ const Input: React.FC<InputProps> = ({ id, label, handleChange, ...rest }) => {
     </div>
   );
 }
-
-export default Input;

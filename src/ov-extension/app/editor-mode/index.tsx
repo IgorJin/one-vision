@@ -30,16 +30,13 @@ const ClickListener: FC<EventListenerProps> = ({ children }): React.ReactElement
   const toolbarRef = createRef<HTMLDivElement>();
 
   const clickHandler = (e: any) => {
-    console.log("clickHandler ", e.target);
+    // console.log("clickHandler ", e.target);
     // (e.target as Element).classList.remove("hovered");
   };
   const mousedownHandler = (e: any) => {
     // TODO replace all any to element
-    e.preventDefault();
-    e.stopPropagation();
-    e.stopImmediatePropagation();
     // document.querySelector(".project-container").style.pointerEvents = "none"
-    console.log("mousedown ", e.target);
+    // console.log("mousedown ", e.target);
     // (e.target as Element).classList.remove("hovered");
   };
 
@@ -73,7 +70,7 @@ const ClickListener: FC<EventListenerProps> = ({ children }): React.ReactElement
       });
     }
 
-    console.log("hoverHandler ", e.target);
+    // console.log("hoverHandler ", e.target);
     (e.target as Element).classList.add("hovered");
   };
 
