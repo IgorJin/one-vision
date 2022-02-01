@@ -1,6 +1,7 @@
 import React, { useState, useContext, useRef } from "react";
 import { EditorContext } from "../../../../store/editor-context";
 import { ElementsSet, Input } from "../../../../components"
+import Option from "./option"
 import "./options.scss"
 
 const AttributesOptions = () => {
@@ -58,10 +59,6 @@ const AttributesOptions = () => {
       formsConfig[type].map(({ Component, props }, idx) => (<Component {...props} key={idx}/> ))
   );
 
-  const handleTitleClick = () => {
-    setVisibility(!visibility)
-  }
-
   React.useEffect(() => {
     if (!(elementInformation.text && elementInformation.styles)) return 
 
@@ -71,26 +68,16 @@ const AttributesOptions = () => {
 
   return (
     <React.Fragment>
-      <div className="edit-options">
-        <div className="edit-options__title" onClick={handleTitleClick}>Attributes</div>
+      <Option title="Attributes" visibility={visibility} setVisibility={setVisibility}>
+        {blockFabric('text')}
+      </Option>
 
-        {visibility && (<div className="edit-options__body">{blockFabric('text')}</div>)}
-      </div>
-
-      <div className="edit-options">
-        <div className="edit-options__title" onClick={() => setStyleVisibility(!styleVisibility)}>Style Options</div>
-
-        {styleVisibility && (<div className="edit-options__body">
-          <div className="input-pair">
-            <ElementsSet size={2}>
-              <>
-              <Input label="Font family" id="f-family" handleChange={() => {}}/>
-              <Input label="Font size" id="f-size" handleChange={() => {}}/>
-              </>
-            </ElementsSet>
-          </div>
-        </div>)}
-      </div>
+      <Option title="Style Options" visibility={styleVisibility} setVisibility={setStyleVisibility}>
+        <ElementsSet size={2}>
+          <Input label="Font family" id="f-family" handleChange={() => {}}/>
+          <Input label="Font size" id="f-size" handleChange={() => {}}/>
+        </ElementsSet>
+      </Option>
     </React.Fragment>
   );
 };
