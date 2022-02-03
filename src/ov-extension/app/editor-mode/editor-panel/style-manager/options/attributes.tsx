@@ -11,14 +11,10 @@ const AttributesOptions = () => {
   const [styleVisibility, setStyleVisibility] = useState(false)
 
 
-  // styles reducer
-  const [elemText, setElemText] = useState<string>("");
-  const [elemFs, setElemFs] = useState<string>("");
-
   const styles = ['fontSize', 'fontWeight'] as const
   type stylesType = typeof styles[number]
   type stylesReducer = {
-    [Property in attributesType]: string;
+    [Property in stylesType]: string;
   }
   const initialStylesState = styles.reduce((acc, style) => ({ ...acc, [style]: ''}), {} as stylesReducer)
   const [stylesState, setStylesState] = useState(initialStylesState)
@@ -38,28 +34,40 @@ const AttributesOptions = () => {
     if (type === 'style') setStylesState({ ...stylesState, [name]: value })
   }
 
-  //  start
-  const changeElementAttribute = () => (field: attributesType) => {
+  
+  const changeElementAttribute = (field: attributesType) => () => {
     if (!elementRef.current) return false
 
     if (field in attributesState) {
       elementRef.current[field] = attributesState[field]
     }
   }
-  // end
 
-  const changeElement = (type: 'attribute' | 'style') => (field: attributesType | stylesType) => {
+  const changeElementStyle = (field: stylesType) => () => {
     if (!elementRef.current) return false
 
-    if (type === 'attribute') {
-      elementRef.current[field] = attributesState[field]
-    } 
-    // if (type === 'style' && styles.includes(field)) {
-    //   elementRef.current.style[field] = stylesState[field]
-    // }
+    if (field in attributesState) {
+      elementRef.current.style[field] = stylesState[field]
+    }
   }
+  
 
+  // IN DA FUTURE
+  //  start 
+  // const changeElement = (type: 'attribute' | 'style') => (field: newAttr | newStyle) => {
+  //   if (!elementRef.current) return false
 
+  //   if (type === 'attribute' && attributes.includes(field) && field.type === 'attr') {
+  //     elementRef.current[field] = attributesState[field]
+  //   } 
+  //   if (type === 'style' && styles.includes(field) && field.type === 'style') {
+  //     elementRef.current.style[field] = stylesState[field]
+  //   }
+  // }
+  // end
+
+  const onAttributeChange = handleChange('attribute')
+  const onStyleChange = handleChange('style')
 
   console.log('rebuild')
   
@@ -70,10 +78,10 @@ const AttributesOptions = () => {
         props: {
           label: "Text",
           id: "elem-text",
-          handleChange: setElemText,
-          // onBlur: changeElement("textContent"),
+          handleChange: onAttributeChange,
+          onBlur: changeElementAttribute("textContent"),
           name: 'textContent',
-          value: elemText,
+          value: attributesState.textContent,
         },
       },
       {
@@ -81,9 +89,10 @@ const AttributesOptions = () => {
         props: {
           label: "Font size",
           id: "elem-font",
-          handleChange: setElemFs,
-          // onBlur: changeElement("elem-font"),
-          value: elemFs,
+          handleChange: onStyleChange,
+          onBlur: changeElementStyle("fontSize"),
+          name: "fontSize",
+          value: stylesState.fontSize,
         },
       },
     ],
@@ -97,8 +106,8 @@ const AttributesOptions = () => {
   React.useEffect(() => {
     if (!(elementInformation.text && elementInformation.styles)) return 
 
-    setElemText(elementInformation.text)
-    setElemFs(`${parseFloat(elementInformation.styles.getPropertyValue('font-size'))}`)
+    setAttributesState({ ...attributesState, textContent: elementInformation.text })
+    setStylesState({ ...stylesState, fontSize: `${parseFloat(elementInformation.styles.getPropertyValue('font-size'))}` }) 
   }, [elementInformation])
 
   return (
