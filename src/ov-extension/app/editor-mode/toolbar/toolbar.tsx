@@ -36,6 +36,10 @@ const ToolbarPanel = forwardRef<HTMLDivElement, ToolbarPanelProps>(
       // maybe do it in context 
       styleManagerFormRef.current?.querySelector('input')?.focus()
 
+      console.log(el.attributes)
+
+      for (const attr in el.attributes) console.log(attr)
+
       setElementInformation({ text: textContent, styles: elementStyles})
       setElementSimplicity(simplicityCheck(el))
       setIsElementEditing(true)
