@@ -7,25 +7,59 @@ import "./options.scss"
 const AttributesOptions = () => {
   const { elementInformation, elementRef, styleManagerFormRef } = useContext(EditorContext);
 
-  // FORM
-  const [elemText, setElemText] = useState<string>("");
-  const [elemFs, setElemFs] = useState<string>("");
-
   const [visibility, setVisibility] = useState(false)
   const [styleVisibility, setStyleVisibility] = useState(false)
 
-  const changeElement = (type: any) => (e: any) => {
-    const { value } = e.target
 
-    console.log(type, value)
-    // 1. format form state
-    // 2. change element
+  // styles reducer
+  const [elemText, setElemText] = useState<string>("");
+  const [elemFs, setElemFs] = useState<string>("");
 
+  const styles = ['fontSize', 'fontWeight'] as const
+  type stylesType = typeof styles[number]
+  type stylesReducer = {
+    [Property in attributesType]: string;
+  }
+  const initialStylesState = styles.reduce((acc, style) => ({ ...acc, [style]: ''}), {} as stylesReducer)
+  const [stylesState, setStylesState] = useState(initialStylesState)
+
+  const attributes = ['textContent'] as const
+  type attributesType = typeof attributes[number]
+  type attributesReducer = {
+    [Property in attributesType]: string;
+  }
+  const initilAttributesState = attributes.reduce((acc, attribute) => ({ ...acc, [attribute]: ''}), {} as attributesReducer)
+  const [attributesState, setAttributesState] = useState(initilAttributesState)
+
+  const handleChange = (type: 'attribute' | 'style') => (e: any) => {
+    const { name, value } = e.target
+
+    if (type === 'attribute') setAttributesState({ ...attributesState, [name]: value })
+    if (type === 'style') setStylesState({ ...stylesState, [name]: value })
+  }
+
+  //  start
+  const changeElementAttribute = () => (field: attributesType) => {
     if (!elementRef.current) return false
 
-    if (type === 'elem-text')
-      elementRef.current.textContent = value
+    if (field in attributesState) {
+      elementRef.current[field] = attributesState[field]
+    }
   }
+  // end
+
+  const changeElement = (type: 'attribute' | 'style') => (field: attributesType | stylesType) => {
+    if (!elementRef.current) return false
+
+    if (type === 'attribute') {
+      elementRef.current[field] = attributesState[field]
+    } 
+    // if (type === 'style' && styles.includes(field)) {
+    //   elementRef.current.style[field] = stylesState[field]
+    // }
+  }
+
+
 
   console.log('rebuild')
   
@@ -37,7 +71,8 @@ const AttributesOptions = () => {
           label: "Text",
           id: "elem-text",
           handleChange: setElemText,
-          onBlur: changeElement("elem-text"),
+          // onBlur: changeElement("textContent"),
+          name: 'textContent',
           value: elemText,
         },
       },
@@ -47,7 +82,7 @@ const AttributesOptions = () => {
           label: "Font size",
           id: "elem-font",
           handleChange: setElemFs,
-          onBlur: changeElement("elem-font"),
+          // onBlur: changeElement("elem-font"),
           value: elemFs,
         },
       },
