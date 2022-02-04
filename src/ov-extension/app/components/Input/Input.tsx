@@ -14,7 +14,7 @@ export const Input: React.FC<InputProps> = ({ id, label, handleChange, ...rest }
   }
 
   return (
-    <div className="input-group">
+    <div className="ov-input-group">
       <label className="input-label" htmlFor={id} >{label}</label>
       <input className={cn("input-field", rest.value && "inputed")} id={id} {...rest} onChange={onChangeHandler} />
     </div>

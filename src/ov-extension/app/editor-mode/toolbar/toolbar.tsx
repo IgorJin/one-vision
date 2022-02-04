@@ -15,7 +15,7 @@ export interface ToolbarState {
 
 const ToolbarPanel = forwardRef<HTMLDivElement, ToolbarPanelProps>(
   (props, ref): React.ReactElement => {
-    const { elementRef, styleManagerFormRef, isElementEditing, elementSimplicity, setElementSimplicity, setIsElementEditing, setElementInformation } = React.useContext(EditorContext);
+    const { elementRef, isElementEditing, handleSetElementEditing } = React.useContext(EditorContext);
 
     const {
       toolbarState: { x, y, visibility },
@@ -23,30 +23,12 @@ const ToolbarPanel = forwardRef<HTMLDivElement, ToolbarPanelProps>(
 
     const handleEditStartClick = () => {
       console.log("EDITORS GONNA EDIT!", elementRef.current);
-      const el: HTMLElement | null = elementRef.current
-
-      if (!el) return 
-
-      const simplicityCheck = (el: HTMLElement): boolean => el.childElementCount === 0
-
-      // get styles
-      const elementStyles: CSSStyleDeclaration = window.getComputedStyle(el, null)
-      const textContent: string = el.textContent || ''
-
-      // maybe do it in context 
-      styleManagerFormRef.current?.querySelector('input')?.focus()
-
-      console.log(el.attributes)
-
-      for (const attr in el.attributes) console.log(attr)
-
-      setElementInformation({ text: textContent, styles: elementStyles})
-      setElementSimplicity(simplicityCheck(el))
-      setIsElementEditing(true)
+      handleSetElementEditing(true)
+      
     };
 
     const handleEditEndClick = () => {
-      setIsElementEditing(false)
+      handleSetElementEditing(false)
     }
 
     return (
