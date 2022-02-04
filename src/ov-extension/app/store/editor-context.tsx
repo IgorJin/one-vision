@@ -11,6 +11,7 @@ export interface EditorContextObject {
   setIsElementEditing(b: boolean): void;
   setElementSimplicity(b: boolean): void;
   setElementInformation(i: any): void;
+  handleSetElementEditing(b: boolean): void;
 }
 
 export const EditorContext = React.createContext<EditorContextObject>(null!);
@@ -25,6 +26,29 @@ const EditorProvider: React.FC = ({ children }) => {
   const elementRef = useRef<HTMLElement | null>(null);
   const styleManagerFormRef = useRef<HTMLElement | null>(null);
 
+  function handleSetElementEditing(isEditing: boolean) {
+    if (!isEditing) return setIsElementEditing(isEditing)
+
+    const el: HTMLElement | null = elementRef.current
+
+    if (!el) return 
+
+    const simplicityCheck = (el: HTMLElement): boolean => el.childElementCount === 0
+
+    // get styles
+    const elementStyles: CSSStyleDeclaration = window.getComputedStyle(el, null)
+    const textContent: string = el.textContent || ''
+
+    // maybe do it in context 
+    styleManagerFormRef.current?.querySelector('input')?.focus()
+
+    for (let i = 0; i < el.attributes.length; i++) console.log(el.attributes[i])
+
+    setElementInformation({ text: textContent, styles: elementStyles})
+    setElementSimplicity(simplicityCheck(el))
+    setIsElementEditing(true)
+  }
+
   return (
     <EditorContext.Provider
       value={{
@@ -38,6 +62,7 @@ const EditorProvider: React.FC = ({ children }) => {
         setIsElementEditing,
         setElementSimplicity,
         setElementInformation,
+        handleSetElementEditing,
       }}
     >
       {children}
