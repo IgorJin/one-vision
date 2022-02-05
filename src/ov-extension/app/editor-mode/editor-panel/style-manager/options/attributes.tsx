@@ -2,6 +2,7 @@ import React, { useState, useContext, useRef } from "react";
 import { EditorContext } from "../../../../store/editor-context";
 import { ElementsSet, Input } from "../../../../components"
 import Option from "./option"
+import { camelToKebab } from "../../../../utils/helpers"
 import "./options.scss"
 
 const AttributesOptions = () => {
@@ -11,7 +12,7 @@ const AttributesOptions = () => {
   const [styleVisibility, setStyleVisibility] = useState(false)
 
 
-  const styles = ['fontSize', 'fontWeight'] as const
+  const styles = ['fontSize', 'fontWeight', 'lineHeight', 'letterSpacing'] as const
   type stylesType = typeof styles[number]
   type stylesReducer = {
     [Property in stylesType]: string;
@@ -35,19 +36,23 @@ const AttributesOptions = () => {
   }
 
   
-  const changeElementAttribute = (field: attributesType) => () => {
+  const changeElementAttribute = (e: any) => {
+    const { name }:{ name : attributesType } = e.target
+
     if (!elementRef.current) return false
 
-    if (field in attributesState) {
-      elementRef.current[field] = attributesState[field]
+    if (name in attributesState) {
+      elementRef.current[name] = attributesState[name]
     }
   }
 
-  const changeElementStyle = (field: stylesType) => () => {
+  const changeElementStyle = (e: any) => {
+    const { name }:{ name : stylesType } = e.target
+
     if (!elementRef.current) return false
 
-    if (field in attributesState) {
-      elementRef.current.style[field] = stylesState[field]
+    if (name in stylesState) {
+      elementRef.current.style[name] = stylesState[name]
     }
   }
   
@@ -77,29 +82,29 @@ const AttributesOptions = () => {
         Component: Input,
         props: {
           label: "Text",
-          id: "elem-text",
+          id: "textContent",
           handleChange: onAttributeChange,
-          onBlur: changeElementAttribute("textContent"),
-          name: 'textContent',
+          onBlur: changeElementAttribute,
           value: attributesState.textContent,
         },
       },
-      {
-        Component: Input,
-        props: {
-          label: "Font size",
-          id: "elem-font",
-          handleChange: onStyleChange,
-          onBlur: changeElementStyle("fontSize"),
-          name: "fontSize",
-          value: stylesState.fontSize,
-        },
-      },
+      // {
+      //   Component: Input,
+      //   props: {
+      //     label: "Font size",
+      //     id: "elem-font",
+      //     handleChange: onStyleChange,
+      //     onBlur: changeElementStyle("fontSize"),
+      //     name: "fontSize",
+      //     value: stylesState.fontSize,
+      //   },
+      // },
     ],
   };
 
   // TODO нужен один интерфейс - ТИП БЛОКА = ключ в КОНФИГЕ
-  const blockFabric = (type: 'text'): JSX.Element[] => (
+  type fabricType = keyof typeof formsConfig
+  const blockFabric = (type: fabricType): JSX.Element[] => (
       formsConfig[type].map(({ Component, props }, idx) => (<Component {...props} key={idx}/> ))
   );
 
@@ -107,21 +112,34 @@ const AttributesOptions = () => {
     if (!(elementInformation.text && elementInformation.styles)) return 
 
     setAttributesState({ ...attributesState, textContent: elementInformation.text })
-    setStylesState({ ...stylesState, fontSize: `${parseFloat(elementInformation.styles.getPropertyValue('font-size'))}` }) 
+    for (const attribute of attributes) {}
+
+    for (const style of styles) {
+      setStylesState({ ...stylesState, [style]: `${parseFloat(elementInformation.styles.getPropertyValue(camelToKebab(style)))}` }) 
+    }
   }, [elementInformation])
 
   return (
     <React.Fragment>
+      {/* ATTRIBUTES */}
       <Option title="Attributes" visibility={visibility} setVisibility={setVisibility}>
         {blockFabric('text')}
       </Option>
-
+      {/* STYLE */}
       <Option title="Style Options" visibility={styleVisibility} setVisibility={setStyleVisibility}>
         <ElementsSet size={2}>
-          <Input label="Font family" id="f-family" handleChange={() => {}}/>
-          <Input label="Font size" id="f-size" handleChange={() => {}}/>
+          <Input label="fontSize" id="fontSize" handleChange={onStyleChange} onBlur={changeElementStyle} value={stylesState.fontSize}/>
+          <Input label="fontWeight" id="fontWeight" handleChange={onStyleChange} onBlur={changeElementStyle} value={stylesState.fontWeight}/>
+        </ElementsSet>
+        <ElementsSet size={2}>
+          <Input label="lineHeight" id="lineHeight" handleChange={onStyleChange} onBlur={changeElementStyle} value={stylesState.lineHeight}/>
+          <Input label="letterSpacing" id="letterSpacing" handleChange={onStyleChange} onBlur={changeElementStyle} value={stylesState.letterSpacing}/>
+        </ElementsSet>
+        <ElementsSet size={2}>
+          
         </ElementsSet>
       </Option>
+      {/* SHAPE */}
     </React.Fragment>
   );
 };
