@@ -8,7 +8,7 @@ import "./options.scss"
 const AttributesOptions = () => {
   const { elementInformation, elementRef, styleManagerFormRef } = useContext(EditorContext);
 
-  const [visibility, setVisibility] = useState(false)
+  const [visibility, setVisibility] = useState(true)
   const [styleVisibility, setStyleVisibility] = useState(false)
 
 
