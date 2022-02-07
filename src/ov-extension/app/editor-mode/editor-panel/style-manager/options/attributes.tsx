@@ -9,9 +9,10 @@ const AttributesOptions = () => {
   const { elementInformation, elementRef, styleManagerFormRef } = useContext(EditorContext);
 
   const [visibility, setVisibility] = useState(true)
-  const [styleVisibility, setStyleVisibility] = useState(false)
+  const [styleVisibility, setStyleVisibility] = useState(true)
+  const [shapeVisibility, setShapeVisibility] = useState(true)
 
-
+  // windows data
   const styles = ['fontSize', 'fontWeight', 'lineHeight', 'letterSpacing'] as const
   type stylesType = typeof styles[number]
   type stylesReducer = {
@@ -28,13 +29,24 @@ const AttributesOptions = () => {
   const initilAttributesState = attributes.reduce((acc, attribute) => ({ ...acc, [attribute]: ''}), {} as attributesReducer)
   const [attributesState, setAttributesState] = useState(initilAttributesState)
 
-  const handleChange = (type: 'attribute' | 'style') => (e: any) => {
+  const shapes = ['borderWidth', 'borderStyle'] as const
+  type shapesType = typeof shapes[number]
+  type shapesReducer = {
+    [Property in shapesType]: string;
+  }
+  const initialShapesState = shapes.reduce((acc, shape) => ({ ...acc, [shape]: ''}), {} as shapesReducer)
+  console.log("🚀 ~ file: attributes.tsx ~ line 38 ~ AttributesOptions ~ initialShapesState", initialShapesState)
+  const [shapesState, setShapesState] = useState(initialShapesState)
+  console.log("🚀 ~ file: attributes.tsx ~ line 39 ~ AttributesOptions ~ shapesState", shapesState)
+
+  // functions
+  const handleChange = (type: 'attribute' | 'style' | 'shape') => (e: any) => {
     const { name, value } = e.target
 
     if (type === 'attribute') setAttributesState({ ...attributesState, [name]: value })
     if (type === 'style') setStylesState({ ...stylesState, [name]: value })
+    if (type === 'shape') setShapesState({ ...shapesState, [name]: value })
   }
-
   
   const changeElementAttribute = (e: any) => {
     const { name }:{ name : attributesType } = e.target
@@ -56,6 +68,16 @@ const AttributesOptions = () => {
     }
   }
   
+  const changeElementShape = (e: any) => {
+    const { name }: { name : shapesType } = e.target
+    console.log(name, shapesState[name])
+
+    if (!elementRef.current) return false
+
+    if (name in stylesState) {
+      elementRef.current.style[name] = shapesState[name]
+    }
+  }
 
   // IN DA FUTURE
   //  start 
@@ -73,6 +95,7 @@ const AttributesOptions = () => {
 
   const onAttributeChange = handleChange('attribute')
   const onStyleChange = handleChange('style')
+  const onShapeChange = handleChange('shape')
 
   console.log('rebuild')
   
@@ -115,8 +138,14 @@ const AttributesOptions = () => {
     for (const attribute of attributes) {}
 
     for (const style of styles) {
-      setStylesState({ ...stylesState, [style]: `${parseFloat(elementInformation.styles.getPropertyValue(camelToKebab(style)))}` }) 
+      setStylesState(prevState => ({ ...prevState, [style]: `${parseFloat(elementInformation.styles.getPropertyValue(camelToKebab(style)))}` })) 
     }
+
+    for (const shape of shapes) {
+      console.log(shape, `${elementInformation.styles.getPropertyValue(camelToKebab(shape))}`);
+      setShapesState(prevState => ({ ...prevState, [shape]: `${(elementInformation.styles.getPropertyValue(camelToKebab(shape)))}` })) 
+    }
+
   }, [elementInformation])
 
   return (
@@ -135,8 +164,11 @@ const AttributesOptions = () => {
           <Input label="lineHeight" id="lineHeight" handleChange={onStyleChange} onBlur={changeElementStyle} value={stylesState.lineHeight}/>
           <Input label="letterSpacing" id="letterSpacing" handleChange={onStyleChange} onBlur={changeElementStyle} value={stylesState.letterSpacing}/>
         </ElementsSet>
+      </Option>
+      <Option title="Shape options" visibility={shapeVisibility} setVisibility={setShapeVisibility}>
         <ElementsSet size={2}>
-          
+          <Input label="borderWidth" id="borderWidth" handleChange={onShapeChange} onBlur={changeElementShape} value={shapesState.borderWidth}/>
+          <Input label="borderStyle" id="borderStyle" handleChange={onShapeChange} onBlur={changeElementShape} value={shapesState.borderStyle}/>
         </ElementsSet>
       </Option>
       {/* SHAPE */}
