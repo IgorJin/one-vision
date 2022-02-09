@@ -1,3 +1,7 @@
-.popover__portal {
-  position: absolute;
+.popover {
+  position: relative;
+  
+  &__portal {
+    position: absolute;
+  }
 }

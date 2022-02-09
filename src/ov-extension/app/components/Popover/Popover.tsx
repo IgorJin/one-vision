@@ -1,6 +1,5 @@
-import React, {useRef, forwardRef} from 'react'
-import { PopoverPortal } from './PopoverPortal'
-import "./Popover.scss"
+import React, { useRef, forwardRef } from "react";
+import "./Popover.scss";
 
 interface PopoverProps {
   children: any;
@@ -10,41 +9,28 @@ interface PopoverProps {
 }
 
 const PopoverInternal = forwardRef<HTMLElement, PopoverProps>(
-  (
-    { children, isOpen, content, position }, externalRef
-  ) => {
-  
-  const prevIsOpen = useRef(false)
-  
-  const renderPopover = () => {
-    if (!isOpen) return null
-    return (
-      <PopoverPortal >
-        {content}
-      </PopoverPortal>
-    )
-  }
- 
-  return (
-    <>
-    {children}
-    {renderPopover()}
-    </>
-  )
-})
+  ({ children, isOpen, content, position }, externalRef) => {
 
+    return (
+      <div className="popover">
+        {children}
+        {isOpen && <div className="popover__portal">{content}</div>}
+      </div>
+    );
+  }
+);
 
 //  USAGE
-
-{/* <Popover
+{
+  /* <Popover
   isOpen={isPopoverOpen}
-  positions={['top', 'bottom', 'left', 'right']} // preferred positions by priority
+  positions={'top'} // preferred positions by priority
   content={<div>Hi! I'm popover content.</div>}
 >
   <div onClick={() => setIsPopoverOpen(!isPopoverOpen)}>
     Click me!
   </div>
-</Popover>; */}
+</Popover>; */
+}
 
-
-export { PopoverInternal }
+export { PopoverInternal };

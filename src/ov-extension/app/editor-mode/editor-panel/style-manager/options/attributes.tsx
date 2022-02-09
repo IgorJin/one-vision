@@ -1,6 +1,6 @@
 import React, { useState, useContext, useRef } from "react";
 import { EditorContext } from "../../../../store/editor-context";
-import { ElementsSet, Input, Popover } from "../../../../components";
+import { ElementsSet, Input, ColorPicker } from "../../../../components";
 import Option from "./option";
 import { camelToKebab } from "../../../../utils/helpers";
 import "./options.scss";
@@ -163,9 +163,7 @@ const AttributesOptions = () => {
 
   return (
     <React.Fragment>
-      <Popover isOpen={isPopoverOpen} content={'Popover Inner'} position="bottom">
-        <button onClick={() => setIsPopoverOpen(!isPopoverOpen)}>Open popover</button>
-      </Popover>
+      <ColorPicker color="#372b7e"/>
       {/* ATTRIBUTES */}
       <Option title="Attributes" visibility={visibility} setVisibility={setVisibility}>
         {blockFabric("text")}
