@@ -3,7 +3,7 @@ import BuiltInButton from "../built-in-button";
 import EditorProvider, { EditorContext } from "../store/editor-context";
 import { useEventListener } from "../utils/hooks";
 import ToolbarPanel, { ToolbarState } from "./toolbar/toolbar";
-import EditorPanel from "./editor-panel"
+import EditorPanel from "./editor-panel";
 import "./index.scss";
 
 interface EventListenerProps {
@@ -11,13 +11,9 @@ interface EventListenerProps {
 }
 
 const ClickListener: FC<EventListenerProps> = ({ children }): React.ReactElement | null => {
-  const {
-    elementRef,
-    isEditorModeActivated,
-    isElementEditing,
-  } = React.useContext(EditorContext);
+  const { elementRef, isEditorModeActivated, isElementEditing } = React.useContext(EditorContext);
 
-  console.log('EDITOR MODE REBUILD')
+  console.log("EDITOR MODE REBUILD");
 
   const toolbarInitialState: ToolbarState = {
     x: 0,
@@ -102,9 +98,7 @@ const ClickListener: FC<EventListenerProps> = ({ children }): React.ReactElement
   );
 };
 
-const ClickListenerWrapper: FC<EventListenerProps> = ({
-  children,
-}): React.ReactElement | null => {
+const ClickListenerWrapper: FC<EventListenerProps> = ({ children }): React.ReactElement | null => {
   return (
     <EditorProvider>
       <ClickListener>{children}</ClickListener>
