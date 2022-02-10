@@ -15,7 +15,11 @@ export interface ToolbarState {
 
 const ToolbarPanel = forwardRef<HTMLDivElement, ToolbarPanelProps>(
   (props, ref): React.ReactElement => {
-    const { elementRef, isElementEditing, handleSetElementEditing } = React.useContext(EditorContext);
+    const { 
+      elementRef, 
+      isElementEditing, 
+      handleSetElementEditing 
+    } = React.useContext(EditorContext);
 
     const {
       toolbarState: { x, y, visibility },
@@ -23,13 +27,12 @@ const ToolbarPanel = forwardRef<HTMLDivElement, ToolbarPanelProps>(
 
     const handleEditStartClick = () => {
       console.log("EDITORS GONNA EDIT!", elementRef.current);
-      handleSetElementEditing(true)
-      
+      handleSetElementEditing(true);
     };
 
     const handleEditEndClick = () => {
-      handleSetElementEditing(false)
-    }
+      handleSetElementEditing(false);
+    };
 
     return (
       <div
@@ -46,7 +49,7 @@ const ToolbarPanel = forwardRef<HTMLDivElement, ToolbarPanelProps>(
         ) : (
           <button onClick={handleEditEndClick}>END</button>
         )}
-        
+
         <button>MOVE</button>
         <button>DUPLICATE</button>
         <button>PARENT</button>
