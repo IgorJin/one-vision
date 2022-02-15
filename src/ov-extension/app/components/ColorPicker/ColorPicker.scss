@@ -1,17 +1,3 @@
-.elements-set {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-
-  &.size {
-    &-2 > * {
-      width: 45%;
-      margin-bottom: 0 !important;
-    }
-
-    &-3 > * {
-      width: 28%;
-      margin-bottom: 0 !important;
-    }
-  }
+.popover-container {
+  z-index: 99999999;
 }
