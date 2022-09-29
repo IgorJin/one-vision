@@ -13,7 +13,7 @@ interface EventListenerProps {
 const ClickListener: FC<EventListenerProps> = ({ children }): React.ReactElement | null => {
   const { elementRef, isEditorModeActivated, isElementEditing } = React.useContext(EditorContext);
 
-  console.log("EDITOR MODE REBUILD");
+  // console.log("EDITOR MODE REBUILD");
 
   const toolbarInitialState: ToolbarState = {
     x: 0,

@@ -163,7 +163,6 @@ const AttributesOptions = () => {
 
   return (
     <React.Fragment>
-      <ColorPicker color="#372b7e"/>
       {/* ATTRIBUTES */}
       <Option title="Attributes" visibility={visibility} setVisibility={setVisibility}>
         {blockFabric("text")}
@@ -201,6 +200,10 @@ const AttributesOptions = () => {
             onBlur={changeElementStyle}
             value={stylesState.letterSpacing}
           />
+        </ElementsSet>
+        <ElementsSet size={2}>
+          <ColorPicker color="#372b7e"/>
+          <ColorPicker color="#372b7e"/>
         </ElementsSet>
       </Option>
       {/* SHAPE */}

@@ -23,7 +23,7 @@ export const ColorPicker: React.FC<ColorPickerProps> = ({ color, ...rest }) => {
       content={ColorPicker}
       {...rest}
     >
-      <div onClick={() => setIsPopoverOpen(!isPopoverOpen)}>Click me!</div>
+      <div className="color-picker" style={{ backgroundColor: color }} onClick={() => setIsPopoverOpen(!isPopoverOpen)} />
     </Popover>
   )
 }

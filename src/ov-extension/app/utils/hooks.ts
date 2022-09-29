@@ -36,12 +36,12 @@ export function useEventListener<
     }
 
     if (needDelete) {
-      console.log('delete ', eventName, ' listener')
+      // console.log('delete ', eventName, ' listener')
       return targetElement.removeEventListener(eventName, eventListener)
     }
 
     targetElement.addEventListener(eventName, eventListener)
-    console.log('create ', eventName, ' listener')
+    // console.log('create ', eventName, ' listener')
 
     // Remove event listener on cleanup
     return () => {
