@@ -60,7 +60,7 @@ const ClickListener: FC<EventListenerProps> = ({ children }): React.ReactElement
 
       setToolbarState({
         ...toolbarState,
-        x: rect.left + rect.width + window.pageXOffset - 50, // TODO with padd or center
+        x: rect.left + rect.width + window.pageXOffset - 50,
         y: rect.top + window.pageYOffset,
         visibility: 1,
       });
@@ -76,10 +76,8 @@ const ClickListener: FC<EventListenerProps> = ({ children }): React.ReactElement
 
   // add listeners on events
   useEventListener("mouseover", hoverHandler, undefined, isElementEditing);
-
-  useEventListener("click", clickHandler, undefined, isElementEditing);
-
-  useEventListener("mouseout", outHandler, undefined, isElementEditing);
+  // useEventListener("click", clickHandler, undefined, isElementEditing);
+  // useEventListener("mouseout", outHandler, undefined, isElementEditing);
 
   if (isEditorModeActivated)
     return (

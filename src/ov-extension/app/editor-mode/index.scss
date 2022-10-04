@@ -8,13 +8,9 @@
 
 .project-container {
   overflow-y: scroll;
-  width: calc(80% - 20px);
-  margin: 10px;
+  width: 80%;
   box-sizing: border-box;
-  border: 3px solid transparent;
-  border-radius: 7px;
   background: white;
-  box-shadow: 2px 4px 10px 2px #8080809e;
 
   & > div {
     width: 100vw;

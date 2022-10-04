@@ -14,8 +14,10 @@ const AttributesOptions = () => {
 
   const [isPopoverOpen, setIsPopoverOpen] = useState(false);
 
+  // console.log("rebuild");
+
   // windows data
-  const styles = ["fontSize", "fontWeight", "lineHeight", "letterSpacing"] as const;
+  const styles = ["fontSize", "fontWeight", "lineHeight", "letterSpacing", "color"] as const;
   type stylesType = typeof styles[number];
   type stylesReducer = {
     [Property in stylesType]: string;
@@ -37,7 +39,7 @@ const AttributesOptions = () => {
   );
   const [attributesState, setAttributesState] = useState(initilAttributesState);
 
-  const shapes = ["borderWidth", "borderStyle"] as const;
+  const shapes = ["borderWidth", "borderStyle", "borderColor"] as const;
   type shapesType = typeof shapes[number];
   type shapesReducer = {
     [Property in shapesType]: string;
@@ -79,7 +81,6 @@ const AttributesOptions = () => {
 
   const changeElementShape = (e: any) => {
     const { name }: { name: shapesType } = e.target;
-    console.log(name, shapesState[name]);
 
     if (!elementRef.current) return false;
 
@@ -89,7 +90,7 @@ const AttributesOptions = () => {
   }; 
 
   // IN DA FUTURE
-  //  start
+  // start
   // const changeElement = (type: 'attribute' | 'style') => (field: newAttr | newStyle) => {
   //   if (!elementRef.current) return false
 
@@ -105,8 +106,6 @@ const AttributesOptions = () => {
   const onAttributeChange = handleChange("attribute");
   const onStyleChange = handleChange("style");
   const onShapeChange = handleChange("shape");
-
-  console.log("rebuild");
 
   const formsConfig = {
     text: [
@@ -149,7 +148,7 @@ const AttributesOptions = () => {
     for (const style of styles) {
       setStylesState((prevState) => ({
         ...prevState,
-        [style]: `${parseFloat(elementInformation.styles.getPropertyValue(camelToKebab(style)))}`,
+        [style]: `${(elementInformation.styles.getPropertyValue(camelToKebab(style)))}`,
       }));
     }
 
@@ -167,6 +166,7 @@ const AttributesOptions = () => {
       <Option title="Attributes" visibility={visibility} setVisibility={setVisibility}>
         {blockFabric("text")}
       </Option>
+
       {/* STYLE */}
       <Option title="Style Options" visibility={styleVisibility} setVisibility={setStyleVisibility}>
         <ElementsSet size={2}>
@@ -202,10 +202,10 @@ const AttributesOptions = () => {
           />
         </ElementsSet>
         <ElementsSet size={2}>
-          <ColorPicker color="#372b7e"/>
-          <ColorPicker color="#372b7e"/>
+          <ColorPicker color={stylesState.color}/>
         </ElementsSet>
       </Option>
+
       {/* SHAPE */}
       <Option title="Shape options" visibility={shapeVisibility} setVisibility={setShapeVisibility}>
         <ElementsSet size={2}>
@@ -223,6 +223,10 @@ const AttributesOptions = () => {
             onBlur={changeElementShape}
             value={shapesState.borderStyle}
           />
+        </ElementsSet>
+        <ElementsSet size={1}>
+          borderColor
+          <ColorPicker color={shapesState.borderColor}/>
         </ElementsSet>
       </Option>
     </React.Fragment>
