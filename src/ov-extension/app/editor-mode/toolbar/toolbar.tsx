@@ -25,13 +25,15 @@ const ToolbarPanel = forwardRef<HTMLDivElement, ToolbarPanelProps>(
       toolbarState: { x, y, visibility },
     } = props;
 
-    const handleEditStartClick = () => {
-      console.log("EDITORS GONNA EDIT!", elementRef.current);
-      handleSetElementEditing(true);
-    };
+    const generateCursor = (element: any) => {
+      // element
+      // document.querySelectorAll
+    }
 
-    const handleEditEndClick = () => {
-      handleSetElementEditing(false);
+    const handleEditClick = (state: boolean) => {
+      if (state) console.log("EDITORS GONNA EDIT!", elementRef.current, elementRef.current?.parentElement);
+      generateCursor(elementRef.current)
+      handleSetElementEditing(state);
     };
 
     return (
@@ -45,9 +47,9 @@ const ToolbarPanel = forwardRef<HTMLDivElement, ToolbarPanelProps>(
         }}
       >
         {!isElementEditing ? (
-          <button onClick={handleEditStartClick}>EDIT</button>
+          <button onClick={() => handleEditClick(true)}>EDIT</button>
         ) : (
-          <button onClick={handleEditEndClick}>END</button>
+          <button onClick={() => handleEditClick(false)}>END</button>
         )}
 
         <button>MOVE</button>

@@ -8,13 +8,12 @@
 
 .project-container {
   overflow-y: scroll;
-  width: 80%;
+  width: calc(100% - 270px);
   box-sizing: border-box;
   background: white;
 
   & > div {
     width: 100vw;
-    // height: 100%;
     overflow-y: scroll;
     overflow-x: scroll;
   }

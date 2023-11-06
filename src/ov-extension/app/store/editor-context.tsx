@@ -1,4 +1,5 @@
 import React, { useRef, useState } from "react";
+import { STYLES_CONFIG } from '../editor-mode/editor-panel/style-manager/stylesConfig'
 
 export interface EditorContextObject {
   elementRef: React.MutableRefObject<HTMLElement | null>;
@@ -29,14 +30,14 @@ const EditorProvider: React.FC = ({ children }) => {
   function handleSetElementEditing(isEditing: boolean) {
     if (!isEditing) return setIsElementEditing(isEditing)
 
-    const el: HTMLElement | null = elementRef.current
-
-    if (!el) return 
-
-    const simplicityCheck = (el: HTMLElement): boolean => el.childElementCount === 0
+    if (!elementRef.current) return
+    const el: HTMLElement = elementRef.current
 
     // get styles
-    const elementStyles: CSSStyleDeclaration = window.getComputedStyle(el, null)
+    const elementStyles: Record<string, any> = window.getComputedStyle(el, null)
+
+    const allStyles = Object.keys(STYLES_CONFIG)
+
     const textContent: string = el.textContent || ''
 
     // maybe do it in context 
@@ -44,8 +45,8 @@ const EditorProvider: React.FC = ({ children }) => {
 
     for (let i = 0; i < el.attributes.length; i++) console.log(el.attributes[i])
 
-    setElementInformation({ text: textContent, styles: elementStyles})
-    setElementSimplicity(simplicityCheck(el))
+    setElementInformation(allStyles.reduce((acc, style) => ({ ...acc, [style]: elementStyles[style] }), {}))
+    setElementSimplicity(el.childElementCount === 0)
     setIsElementEditing(true)
   }
 

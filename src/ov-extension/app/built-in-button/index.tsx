@@ -4,8 +4,7 @@ import { EditorContext } from "../store/editor-context";
 import "./index.scss";
 
 const BuiltInButton = () => {
-  const { isEditorModeActivated, setIsEditorModeActivated } =
-    React.useContext(EditorContext);
+  const { isEditorModeActivated, setIsEditorModeActivated } = React.useContext(EditorContext);
 
   return (
     <div

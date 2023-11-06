@@ -1,7 +1,7 @@
-import React, { useState, useContext, useRef } from "react";
+import React, { useContext } from "react";
 import { EditorContext } from "../../store/editor-context";
+import StylesManager from './style-manager'
 import "./editor-panel.scss";
-import StyleManager from "./style-manager";
 
 const EditorPanel = () => {
   const { isEditorModeActivated, setIsEditorModeActivated } = useContext(EditorContext);
@@ -9,11 +9,15 @@ const EditorPanel = () => {
 
   return (
     <div className="editor-container">
-      <h2 onClick={() => setIsEditorModeActivated(!isEditorModeActivated)}>
-        EDITOR
-      </h2>
+      <div className="control-panel">
+        <span>&#8617;</span>
+        <span>&#8618;</span>
+        <span onClick={() => setIsEditorModeActivated(!isEditorModeActivated)}>&#10005;</span>
+      </div>
 
-      <StyleManager />
+      <div className="views-panel">
+        <StylesManager />
+      </div>
     </div>
   );
 };
