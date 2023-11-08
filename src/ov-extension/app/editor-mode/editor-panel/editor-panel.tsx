@@ -1,11 +1,10 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { EditorContext } from "../../store/editor-context";
 import StylesManager from './style-manager'
 import "./editor-panel.scss";
 
 const EditorPanel = () => {
   const { isEditorModeActivated, setIsEditorModeActivated } = useContext(EditorContext);
-
 
   return (
     <div className="editor-container">

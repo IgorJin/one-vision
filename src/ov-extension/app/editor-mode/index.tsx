@@ -1,4 +1,4 @@
-import React, { FC, createRef, useState } from "react";
+import React, { FC, createRef, useState, useEffect } from "react";
 import BuiltInButton from "../built-in-button";
 import EditorProvider, { EditorContext } from "../store/editor-context";
 import { useEventListener } from "../utils/hooks";
@@ -14,6 +14,16 @@ const ClickListener: FC<EventListenerProps> = ({ children }): React.ReactElement
   const { elementRef, isEditorModeActivated, isElementEditing } = React.useContext(EditorContext);
 
   // console.log("EDITOR MODE REBUILD");
+
+  useEffect(() => {
+    // TODO THIS IS INIT CLASS FOR EDITED ELEMENTS (LIKE FROM DB) move in other place 
+    const items = { ...localStorage };
+    console.log("🚀 ~ file: index.tsx:19 ~ items:", items)
+    Object.entries(items).forEach(item => {
+      console.log(document.querySelector(item[1]))
+      document.querySelector(item[1]).classList.add(item[0])
+    })
+  }, [])
 
   const toolbarInitialState: ToolbarState = {
     x: 0,

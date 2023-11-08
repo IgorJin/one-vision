@@ -537,5 +537,4 @@ export const Generator = (config: PropsToCreate) => {
   }, {} as ConfigReducer)
 }
 
-console.log(Generator(propsToCreate))
 export const STYLES_CONFIG = Generator(propsToCreate)
