@@ -1,26 +1,21 @@
 .document-wrapper {
   display: flex;
-    background: radial-gradient(#e0eaf7 10%, transparent 20%) 0 0, radial-gradient(rgba(0, 0, 0, 0.1) 1%, transparent 6%) 150px 150px;
-    background-color: #f3f6fc;
-    background-size: 20px 20px;
-    height: 100vh;
 }
 
 .project-container {
   overflow-y: scroll;
   width: calc(100% - 270px);
   box-sizing: border-box;
-  background: white;
-
-  & > div {
-    width: 100vw;
-    overflow-y: scroll;
-    overflow-x: scroll;
-  }
 
   .hovered {
-    outline: 3px solid #3614FF !important;
-    outline-offset: -3px !important;
+    outline: 2px solid #462bdeb2 !important;
+    outline-offset: -2px !important;
     visibility: visible !important;
   }
-} 
+
+  & * {
+    outline: 1px dashed #bcbcbcb2 !important;
+    outline-offset: -1px !important;
+  }
+}
+

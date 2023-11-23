@@ -8,7 +8,6 @@ const ViewsManager = () => {
   const { elementInformation, elementRef } = useContext(EditorContext);
   
   const [styleState, styleStateSetter] = useState({} as stylesReduceType);
-  console.log("🚀 ~ file: index.tsx:23 ~ ViewsManager ~ styleState:", styleState)
 
   const sectorsStyles = SECTORS_CONFIG.map(sector => sector.properties).flat()
 
@@ -18,13 +17,10 @@ const ViewsManager = () => {
     [Property in styleType]: string;
   };
 
-
   useEffect(() => {
     if (!(elementInformation && Object.keys(elementInformation).length)) return;
 
     const initialGeneralState = elementInformation
-
-    console.log("🚀 ~ file: index.tsx:21 ~ ViewsManager ~ initialState:", initialGeneralState)
 
     styleStateSetter({ ...initialGeneralState });
 
@@ -40,8 +36,6 @@ const ViewsManager = () => {
     const { name }: { name: styleType } = e.target;
 
     if (!elementRef.current) return
-
-    console.log('!!!!!!!', elementRef.current.style[name], styleState[name], elementRef.current.style[name] === styleState[name])
     if (elementRef.current.style[name] === styleState[name]) return
 
     const generatePath = () => {
@@ -104,8 +98,6 @@ const ViewsManager = () => {
           />)}
         </>
       )) })
-
-      {/* <StyleSection title="General" /> */}
     </>
   );
 };

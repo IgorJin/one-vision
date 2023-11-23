@@ -21,6 +21,8 @@ const ClickListener: FC<EventListenerProps> = ({ children }): React.ReactElement
     console.log("🚀 ~ file: index.tsx:19 ~ items:", items)
     Object.entries(items).forEach(item => {
       console.log(document.querySelector(item[1]))
+      if (!document.querySelector(item[1])) return false
+
       document.querySelector(item[1]).classList.add(item[0])
     })
   }, [])
@@ -46,9 +48,40 @@ const ClickListener: FC<EventListenerProps> = ({ children }): React.ReactElement
     // (e.target as Element).classList.remove("hovered");
   };
 
-  const hoverHandler = (e: any) => {
-    if (e.target.closest(".toolbar-wrapper") || e.target.closest(".editor-container")) {
-      console.log("HERE WE GOOO");
+  const getTooltipCoordinates = (rect: any) => {
+    const TOOLBAR_HEIGHT = 21;
+    const EDITOR_WIDTH = 270;
+    const TOOLBAR_WIDTH = 150;
+    const INNER_WIDTH = window.innerWidth - EDITOR_WIDTH
+    // 1
+    if (rect.height > window.innerHeight && rect.y < TOOLBAR_HEIGHT) {
+      console.log("1. so high", rect.right > INNER_WIDTH);
+      if (rect.right > INNER_WIDTH) return { x: rect.x + TOOLBAR_WIDTH + window.screenX, y: window.scrollY ? window.scrollY : rect.y };
+      else return { x: rect.right, y: window.scrollY }
+    }
+    // 2
+    if (rect.right > INNER_WIDTH) return { x: rect.x + TOOLBAR_WIDTH + window.screenX, y: rect.top + window.scrollY - TOOLBAR_HEIGHT };
+    // 3
+    if (rect.y < TOOLBAR_HEIGHT && rect.bottom + TOOLBAR_HEIGHT <= window.innerHeight) {
+      console.log("on bottom");
+
+      return {
+        x: rect.left + rect.width - window.scrollX,
+        y: rect.bottom + window.scrollY,
+      };
+    }
+    // 4
+    console.log("on top default");
+    return {
+      x: rect.left + rect.width + window.scrollX,
+      y: rect.top + window.scrollY - TOOLBAR_HEIGHT,
+    };
+  }
+
+  const hoverHandler = (e: Event) => {
+    const target = e.target as HTMLElement
+
+    if (!target || target.closest(".toolbar-wrapper") || target.closest(".editor-container")) {
       return;
     }
 
@@ -63,22 +96,35 @@ const ClickListener: FC<EventListenerProps> = ({ children }): React.ReactElement
         });
       }
     }
-    elementRef.current = e.target;
 
-    if (e.target) {
-      const rect = e.target.getBoundingClientRect();
+    elementRef.current = target;
 
-      setToolbarState({
-        ...toolbarState,
-        x: rect.left + rect.width + window.pageXOffset - 50,
-        y: rect.top + window.pageYOffset,
-        visibility: 1,
-      });
-    }
+    const rect = target.getBoundingClientRect();
 
-    // console.log("hoverHandler ", e.target);
-    (e.target as Element).classList.add("hovered");
+    setToolbarState({
+      ...toolbarState,
+      visibility: 1,
+      ...getTooltipCoordinates(rect),
+    });
+
+    target.classList.add("hovered");
   };
+
+  const scrollHandler = (e: Event) => {
+    if (elementRef.current) {
+      if (elementRef.current.classList.contains("hovered")) {
+        window.requestAnimationFrame(() => {
+          const rect = elementRef.current!.getBoundingClientRect();
+
+          setToolbarState({
+            ...toolbarState,
+            visibility: 1,
+            ...getTooltipCoordinates(rect),
+          });
+        });
+      }
+    }
+  }
 
   const outHandler = (e: any) => {
     //console.log("outHandler ", e.target);
@@ -86,7 +132,7 @@ const ClickListener: FC<EventListenerProps> = ({ children }): React.ReactElement
 
   // add listeners on events
   useEventListener("mouseover", hoverHandler, undefined, isElementEditing);
-  // useEventListener("click", clickHandler, undefined, isElementEditing);
+  useEventListener("scroll", scrollHandler, undefined, isElementEditing);
   // useEventListener("mouseout", outHandler, undefined, isElementEditing);
 
   if (isEditorModeActivated)

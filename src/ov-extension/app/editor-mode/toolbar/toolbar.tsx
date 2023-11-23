@@ -44,17 +44,18 @@ const ToolbarPanel = forwardRef<HTMLDivElement, ToolbarPanelProps>(
           left: x,
           top: y,
           visibility: visibility ? "visible" : "hidden",
+          transform: `translateX(-100%)`,
         }}
       >
         {!isElementEditing ? (
-          <button onClick={() => handleEditClick(true)}>EDIT</button>
+          <button onClick={() => handleEditClick(true)}>GO</button>
         ) : (
           <button onClick={() => handleEditClick(false)}>END</button>
         )}
 
-        <button>MOVE</button>
-        <button>DUPLICATE</button>
-        <button>PARENT</button>
+        <button>M</button>
+        <button>DUB</button>
+        <button>PAR</button>
         <div className="toolbar-wrapper__button"></div>
       </div>
     );
