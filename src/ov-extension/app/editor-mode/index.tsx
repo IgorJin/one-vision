@@ -57,7 +57,7 @@ const ClickListener: FC<EventListenerProps> = ({ children }): React.ReactElement
     if (rect.height > window.innerHeight && rect.y < TOOLBAR_HEIGHT) {
       console.log("1. so high", rect.right > INNER_WIDTH);
       if (rect.right > INNER_WIDTH) return { x: rect.x + TOOLBAR_WIDTH + window.screenX, y: window.scrollY ? window.scrollY : rect.y };
-      else return { x: rect.right, y: window.scrollY }
+      else return { x: rect.right, y: window.scrollY ? window.scrollY : rect.y }
     }
     // 2
     if (rect.right > INNER_WIDTH) return { x: rect.x + TOOLBAR_WIDTH + window.screenX, y: rect.top + window.scrollY - TOOLBAR_HEIGHT };
