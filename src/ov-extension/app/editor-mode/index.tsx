@@ -1,19 +1,20 @@
 import React, { FC, createRef, useState, useEffect } from "react";
-import BuiltInButton from "../built-in-button";
+import BuiltInButton from "../ActivasionButton";
 import EditorProvider, { EditorContext } from "../store/editor-context";
 import { useEventListener } from "../utils/hooks";
 import ToolbarPanel, { ToolbarState } from "./toolbar/toolbar";
 import EditorPanel from "./editor-panel";
-import "./index.scss";
 
 interface EventListenerProps {
   children?: React.ReactNode;
 }
 
-const ClickListener: FC<EventListenerProps> = ({ children }): React.ReactElement | null => {
-  const { elementRef, isEditorModeActivated, isElementEditing } = React.useContext(EditorContext);
-
+const ClickListener: FC<EventListenerProps> = (): React.ReactElement | null => {
   console.log("EDITOR MODE REBUILD");
+
+  const { elementRef, isEditorModeActivated, isElementEditing } = React.useContext(EditorContext);
+  console.log("🚀 ~ isEditorModeActivated:", isEditorModeActivated)
+
 
   useEffect(() => {
     // TODO THIS IS INIT CLASS FOR EDITED ELEMENTS (LIKE FROM DB) move in other place 
@@ -143,27 +144,25 @@ const ClickListener: FC<EventListenerProps> = ({ children }): React.ReactElement
 
   if (isEditorModeActivated)
     return (
-      <React.Fragment>
-        {children}
+      <>
         <BuiltInButton />
-      </React.Fragment>
+      </>
     );
 
   return (
-    <div className="document-wrapper">
-      <div className="project-container">{children}</div>
+    <>
       <EditorPanel />
       <ToolbarPanel ref={toolbarRef} toolbarState={toolbarState} />
-    </div>
+    </>
   );
 };
 
-const ClickListenerWrapper: FC<EventListenerProps> = ({ children }): React.ReactElement | null => {
+const PageEditor: FC<EventListenerProps> = (): React.ReactElement | null => {
   return (
     <EditorProvider>
-      <ClickListener>{children}</ClickListener>
+      <ClickListener />
     </EditorProvider>
   );
 };
 
-export default ClickListenerWrapper;
+export default PageEditor;

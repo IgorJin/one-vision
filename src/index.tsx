@@ -3,17 +3,16 @@ import ReactDOM from "react-dom";
 import "./index.css";
 import MainScreen from "./components/main-screen";
 import { BrowserRouter } from "react-router-dom";
-
-// import ONE VISION
-import { ClickListener } from "./ov-extension";
+import { PageEditor } from './ov-extension'
 
 ReactDOM.render(
   <React.StrictMode>
-    <ClickListener>
-      <BrowserRouter>
+    <BrowserRouter>
+      <div style={{ display: 'flex' }}>
         <MainScreen />
-      </BrowserRouter>
-    </ClickListener>
+        <PageEditor />
+      </div>
+    </BrowserRouter>
   </React.StrictMode>,
   document.getElementById("root")
 );
