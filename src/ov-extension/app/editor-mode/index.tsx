@@ -13,14 +13,13 @@ interface EventListenerProps {
 const ClickListener: FC<EventListenerProps> = ({ children }): React.ReactElement | null => {
   const { elementRef, isEditorModeActivated, isElementEditing } = React.useContext(EditorContext);
 
-  // console.log("EDITOR MODE REBUILD");
+  console.log("EDITOR MODE REBUILD");
 
   useEffect(() => {
     // TODO THIS IS INIT CLASS FOR EDITED ELEMENTS (LIKE FROM DB) move in other place 
     const items = { ...localStorage };
-    console.log("🚀 ~ file: index.tsx:19 ~ items:", items)
+
     Object.entries(items).forEach(item => {
-      console.log(document.querySelector(item[1]))
       if (!document.querySelector(item[1])) return false
 
       document.querySelector(item[1]).classList.add(item[0])
@@ -37,17 +36,18 @@ const ClickListener: FC<EventListenerProps> = ({ children }): React.ReactElement
 
   const toolbarRef = createRef<HTMLDivElement>();
 
-  const clickHandler = (e: any) => {
-    // console.log("clickHandler ", e.target);
-    // (e.target as Element).classList.remove("hovered");
-  };
-  const mousedownHandler = (e: any) => {
-    // TODO replace all any to element
-    // document.querySelector(".project-container").style.pointerEvents = "none"
-    // console.log("mousedown ", e.target);
-    // (e.target as Element).classList.remove("hovered");
-  };
+  // const clickHandler = (e: any) => {
+  //   // console.log("clickHandler ", e.target);
+  //   // (e.target as Element).classList.remove("hovered");
+  // };
+  // const mousedownHandler = (e: any) => {
+  //   // TODO replace all any to element
+  //   // document.querySelector(".project-container").style.pointerEvents = "none"
+  //   // console.log("mousedown ", e.target);
+  //   // (e.target as Element).classList.remove("hovered");
+  // };
 
+  // TODO separate
   const getTooltipCoordinates = (rect: any) => {
     const TOOLBAR_HEIGHT = 21;
     const EDITOR_WIDTH = 270;
@@ -55,7 +55,6 @@ const ClickListener: FC<EventListenerProps> = ({ children }): React.ReactElement
     const INNER_WIDTH = window.innerWidth - EDITOR_WIDTH
     // 1
     if (rect.height > window.innerHeight && rect.y < TOOLBAR_HEIGHT) {
-      console.log("1. so high", rect.right > INNER_WIDTH);
       if (rect.right > INNER_WIDTH) return { x: rect.x + TOOLBAR_WIDTH + window.screenX, y: window.scrollY ? window.scrollY : rect.y };
       else return { x: rect.right, y: window.scrollY ? window.scrollY : rect.y }
     }
@@ -63,15 +62,12 @@ const ClickListener: FC<EventListenerProps> = ({ children }): React.ReactElement
     if (rect.right > INNER_WIDTH) return { x: rect.x + TOOLBAR_WIDTH + window.screenX, y: rect.top + window.scrollY - TOOLBAR_HEIGHT };
     // 3
     if (rect.y < TOOLBAR_HEIGHT && rect.bottom + TOOLBAR_HEIGHT <= window.innerHeight) {
-      console.log("on bottom");
-
       return {
         x: rect.left + rect.width - window.scrollX,
         y: rect.bottom + window.scrollY,
       };
     }
     // 4
-    console.log("on top default");
     return {
       x: rect.left + rect.width + window.scrollX,
       y: rect.top + window.scrollY - TOOLBAR_HEIGHT,
@@ -134,6 +130,16 @@ const ClickListener: FC<EventListenerProps> = ({ children }): React.ReactElement
   useEventListener("mouseover", hoverHandler, undefined, isElementEditing);
   useEventListener("scroll", scrollHandler, undefined, isElementEditing);
   // useEventListener("mouseout", outHandler, undefined, isElementEditing);
+
+  // DRAG AND DROP
+  // useEffect(() => {
+  //   if (toolbarRef!.current) {
+  //     toolbarRef.current.addEventListener('dragstart', handleDragStart);
+  //     toolbarRef.current.addEventListener('dragend', handleDragEnd);
+  //   }
+
+  //   return ()
+  // }, [toolbarRef])
 
   if (isEditorModeActivated)
     return (

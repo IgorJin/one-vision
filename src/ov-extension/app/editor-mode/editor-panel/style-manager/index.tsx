@@ -95,6 +95,7 @@ const ViewsManager = () => {
             handleChange={onStyleChange}
             onBlur={changeElementStyle}
             value={styleState[style]}
+            key={style}
           />)}
         </>
       )) })
