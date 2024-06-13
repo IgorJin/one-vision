@@ -11,3 +11,20 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.main .hovered {
+  outline: 2px solid #462bdeb2 !important;
+  outline-offset: -2px !important;
+  visibility: visible !important;
+}
+
+.main * {
+  outline: 1px dashed #bcbcbcb2 !important;
+  outline-offset: -1px !important;
+}
+
+.main .below-dragged {
+  outline: 2px solid #de2bb4b2 !important;
+  outline-offset: -2px !important;
+  visibility: visible !important;
+}

@@ -5,6 +5,8 @@ import ActionPanel from "./action-panel/action-panel";
 interface MainScreenProps {}
 
 const MainScreen: FC<MainScreenProps> = (props) => {
+  console.log('MAIN SCREEN REBUILD')
+  
   const [vechicle, setVechicle] = useState<string | null>(null);
   const [date, setDate] = useState<Date>(new Date());
   const [paymentInfo, setPaymentInfo] = useState<string | null>(null);
@@ -20,7 +22,6 @@ const MainScreen: FC<MainScreenProps> = (props) => {
         paymentInfo={paymentInfo}
         setPaymentInfo={setPaymentInfo}
       />
-
     </div>
   );
 };

@@ -3,7 +3,7 @@ import SelectIcon from "../../images/select.png";
 import { EditorContext } from "../store/editor-context";
 import "./index.scss";
 
-const BuiltInButton = () => {
+const ActivasionButton = () => {
   const { isEditorModeActivated, setIsEditorModeActivated } = React.useContext(EditorContext);
 
   return (
@@ -19,4 +19,4 @@ const BuiltInButton = () => {
   );
 };
 
-export default BuiltInButton;
+export default ActivasionButton;
