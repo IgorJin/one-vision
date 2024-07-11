@@ -1,5 +1,5 @@
 import React, { useRef, useState } from "react";
-import { STYLES_CONFIG } from '../editor-mode/editor-panel/style-manager/stylesConfig'
+import { STYLES_CONFIG } from '../packages/editor-mode/editor-panel/style-manager/stylesConfig'
 
 export interface EditorContextObject {
   elementRef: React.MutableRefObject<HTMLElement | null>;

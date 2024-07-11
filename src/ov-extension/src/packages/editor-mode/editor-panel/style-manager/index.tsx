@@ -1,20 +1,17 @@
 import React, { useEffect, useContext, useState } from "react";
 // import StylesOptions from "./options";
-import { EditorContext } from "../../../store/editor-context";
-import { Input, ColorPicker } from "../../../components";
-import { SECTORS_CONFIG } from './stylesConfig'
+import { EditorContext } from "../../../../store/editor-context";
+import { Input, ColorPicker } from "../../components";
+import { SECTORS_CONFIG, StyleType } from './stylesConfig'
 
 const ViewsManager = () => {
   const { elementInformation, elementRef } = useContext(EditorContext);
   
   const [styleState, styleStateSetter] = useState({} as stylesReduceType);
-
-  const sectorsStyles = SECTORS_CONFIG.map(sector => sector.properties).flat()
-
-  type styleType = typeof sectorsStyles[number];
+  
 
   type stylesReduceType = {
-    [Property in styleType]: string;
+    [Property in StyleType]: string;
   };
 
   useEffect(() => {
@@ -33,7 +30,7 @@ const ViewsManager = () => {
   }
 
   const changeElementStyle = (e: any) => {
-    const { name }: { name: styleType } = e.target;
+    const { name }: { name: StyleType } = e.target;
 
     if (!elementRef.current) return
     if (elementRef.current.style[name] === styleState[name]) return
@@ -87,7 +84,7 @@ const ViewsManager = () => {
   return (
     <>
       ({ SECTORS_CONFIG.map(({ name, properties }) => (
-        <>
+        <div key={name}>
           <h3>{name}</h3>
           {properties.map(style => <Input
             label={style}
@@ -97,7 +94,7 @@ const ViewsManager = () => {
             value={styleState[style]}
             key={style}
           />)}
-        </>
+        </div>
       )) })
     </>
   );

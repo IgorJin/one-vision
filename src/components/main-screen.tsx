@@ -11,7 +11,7 @@ const MainScreen: FC<MainScreenProps> = (props) => {
   const [date, setDate] = useState<Date>(new Date());
   const [paymentInfo, setPaymentInfo] = useState<string | null>(null);
   return (
-    <div className="main">
+    <div className="main" style={{ marginRight: 300 }}>
       <Form vechicle={vechicle} date={date} paymentInfo={paymentInfo} />
 
       <ActionPanel

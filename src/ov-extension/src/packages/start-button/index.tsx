@@ -1,6 +1,6 @@
 import React from "react";
-import SelectIcon from "../../images/select.png";
-import { EditorContext } from "../store/editor-context";
+import SelectIcon from "../../../images/select.png";
+import { EditorContext } from "../../store/editor-context";
 import "./index.scss";
 
 const ActivasionButton = () => {

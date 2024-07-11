@@ -1,6 +1,6 @@
 import React, { forwardRef, createRef, useState, useEffect, useRef } from "react";
-import { useEventListener } from "../../utils/hooks";
-import { EditorContext } from "../../store/editor-context";
+import { useEventListener } from "../../../utils/hooks";
+import { EditorContext } from "../../../store/editor-context";
 import "./index.scss";
 
 interface ToolbarPanelProps {
@@ -167,6 +167,14 @@ const ToolbarPanel = forwardRef<HTMLDivElement, ToolbarPanelProps>(
       }
     }
 
+    const handleSetElementCopy = () => {
+      if (!elementRef.current) return
+
+      const el: HTMLElement = elementRef.current
+      const clone = el.cloneNode(true)
+      el.after(clone)
+    }
+
     useEventListener('dragstart', handleDragStart, moveButtonRef)
     useEventListener('dragend', handleDragEnd, moveButtonRef)
     useEventListener('dragover', handleDragOver, undefined, !isMouseUp)
@@ -189,7 +197,7 @@ const ToolbarPanel = forwardRef<HTMLDivElement, ToolbarPanelProps>(
         )}
 
         <button ref={moveButtonRef} draggable="true" id="moveButton">M</button>
-        <button>DUB</button>
+        <button onClick={handleSetElementCopy}>COPY</button>
         <button>PAR</button>
         <div className="toolbar-wrapper__button"></div>
       </div>

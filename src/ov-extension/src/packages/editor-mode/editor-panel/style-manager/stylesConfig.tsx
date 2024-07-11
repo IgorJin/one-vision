@@ -1,4 +1,4 @@
-import { camelCase } from '../../../utils/helpers'
+import { camelCase } from '../../../../utils/helpers'
 
 export interface PropertyProps {
   name?: string;
@@ -538,3 +538,7 @@ export const Generator = (config: PropsToCreate) => {
 }
 
 export const STYLES_CONFIG = Generator(propsToCreate)
+
+export const sectorsStyles = SECTORS_CONFIG.map(sector => sector.properties).flat()
+
+export type StyleType = typeof sectorsStyles[number];
