@@ -7,11 +7,13 @@ const COMMAND_TYPES = {
   ADD_ELEMENT: 'add-element',
   DELETE_ELEMENT: 'delete-element',
   EDIT_LOCATION: 'edit-location',
-}
+} as const
+
+const COMMAND_TYPES_LIST = Object.values(COMMAND_TYPES)
 
 type CommandItem = {
   id: string;
-  type: string; //TODO map
+  type: typeof COMMAND_TYPES_LIST[number];
   metadata: any;
 }
 
@@ -20,11 +22,16 @@ type ChangedData = {
   value: string;
 }
 
+type ChangedCoordinatesData = {
+  parameter?: StyleType;
+  value: { x: number; y: number };
+}
+
 interface CommandInterface {
   execute(): void;
   cancel(): void;
   data: CommandItem;
-  changedData: ChangedData;
+  changedData: ChangedData | ChangedCoordinatesData;
   node: NodeWrapperInterface;
 }
 
@@ -135,32 +142,47 @@ export class EditStyleCommand implements CommandInterface {
       }
     }
 
-    this.node.current.style[this.changedData.parameter!] 
-    // elementRef.current. = styleState[name];
+    this.node.current.style[this.changedData.parameter!] = this.changedData.value
   }
   cancel(): void {
-    
+    this.node.current.style[this.data.metadata.previousState.parameter!] = this.data.metadata.previousState.value
   }
 }
 
-// export class EditLocation implements CommandInterface {
-//   private storage: CommandStorage
-//   type: string
+export class EditLocation implements CommandInterface {
+  data: CommandItem
+  node: NodeWrapperInterface
+  changedData: ChangedCoordinatesData
 
-//   constructor(storage: CommandStorage) {
-//     this.storage = storage
-//     this.type = COMMAND_TYPES.EDIT_LOCATION
-//   }
+  constructor(node: NodeWrapperInterface, changedData: ChangedCoordinatesData) {
+    this.data = {
+      id: node.id,
+      type: COMMAND_TYPES.EDIT_LOCATION,
+      metadata: {},
+    }
 
-//   execute(id: string, value: string, metadata: object) {
-//     this.storage.addCommand({
-//       id,
-//       type: this.type,
-//       value,
-//       metadata,
-//     })
-//   }
-// }
+    this.node = node
+    this.changedData = changedData
+  }
+
+  execute() {
+    this.data.metadata = {
+      previousState: {
+        value: this.node.current.innerText,
+      }
+    }
+
+    const { x, y } = this.changedData.value
+
+    this.node.coordinates = { x, y }
+  }
+
+  cancel(): void {
+    const { x, y } = this.data.metadata.previousState.value
+
+    this.node.coordinates = { x, y }
+  }
+}
 
 // export class AddElement implements CommandInterface {
 //   private storage: CommandStorage
