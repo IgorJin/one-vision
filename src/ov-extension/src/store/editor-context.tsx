@@ -1,17 +1,17 @@
 import React, { useRef, useState } from "react";
 import { STYLES_CONFIG } from '../packages/editor-mode/editor-panel/style-manager/stylesConfig'
+import { NodeWrapper } from '../packages/editor-mode/lib/node-wrapper';
 
 export interface EditorContextObject {
+  editedElementRef: React.MutableRefObject<NodeWrapper | null>;
   elementRef: React.MutableRefObject<HTMLElement | null>;
   styleManagerFormRef: React.MutableRefObject<HTMLElement | null>;
   isEditorModeActivated: boolean;
   isElementEditing: boolean;
   elementSimplicity: boolean;
-  elementInformation: any;
   setIsEditorModeActivated(b: boolean): void;
   setIsElementEditing(b: boolean): void;
   setElementSimplicity(b: boolean): void;
-  setElementInformation(i: any): void;
   handleSetElementEditing(b: boolean): void;
 }
 
@@ -21,10 +21,10 @@ const EditorProvider: React.FC = ({ children }) => {
   const [isEditorModeActivated, setIsEditorModeActivated] = useState<boolean>(false);
   const [isElementEditing, setIsElementEditing] = useState<boolean>(false);
   const [elementSimplicity, setElementSimplicity] = useState<boolean>(false);
-  const [elementInformation, setElementInformation] = useState<any>({})
 
   // refs
   const elementRef = useRef<HTMLElement | null>(null);
+  const editedElementRef = useRef<NodeWrapper | null>(null);
   const styleManagerFormRef = useRef<HTMLElement | null>(null);
 
   function handleSetElementEditing(isEditing: boolean) {
@@ -32,37 +32,27 @@ const EditorProvider: React.FC = ({ children }) => {
 
     if (!elementRef.current) return
     const el: HTMLElement = elementRef.current
+    const editedNode = new NodeWrapper(el)
 
-    // get styles
-    const elementStyles: Record<string, any> = window.getComputedStyle(el, null)
+    editedNode.create()
 
-    const allStyles = Object.keys(STYLES_CONFIG)
+    editedElementRef.current = editedNode
 
-    const textContent: string = el.textContent || ''
-
-    // maybe do it in context 
-    styleManagerFormRef.current?.querySelector('input')?.focus()
-
-    for (let i = 0; i < el.attributes.length; i++) console.log(el.attributes[i])
-
-    setElementInformation(allStyles.reduce((acc, style) => ({ ...acc, [style]: elementStyles[style] }), {}))
-    setElementSimplicity(el.childElementCount === 0)
     setIsElementEditing(true)
   }
 
   return (
     <EditorContext.Provider
       value={{
+        editedElementRef,
         elementRef,
         styleManagerFormRef,
         isEditorModeActivated,
         isElementEditing,
         elementSimplicity,
-        elementInformation,
         setIsEditorModeActivated,
         setIsElementEditing,
         setElementSimplicity,
-        setElementInformation,
         handleSetElementEditing,
       }}
     >

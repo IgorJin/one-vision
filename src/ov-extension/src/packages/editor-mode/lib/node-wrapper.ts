@@ -1,3 +1,5 @@
+import { STYLES_CONFIG } from '../../../packages/editor-mode/editor-panel/style-manager/stylesConfig'
+
 class NodeWrapperStorage {
   store: NodeWrapper[] = []
 
@@ -10,7 +12,7 @@ class NodeWrapperStorage {
   }
 
   findByDataSelector(node: HTMLElement): NodeWrapper | undefined {
-    const id = node.dataset['ov-selector-id']
+    const id = node.dataset['1VSelectorId']
 
     if (!id) return undefined
     
@@ -20,13 +22,14 @@ class NodeWrapperStorage {
 
 export const nodeWrapperStorage = new NodeWrapperStorage()
 
-
-
 export interface NodeWrapperInterface {
   current: HTMLElement
   id: string
   selectors: string[]
   coordinates: { x: number, y: number }
+  isSimplicity: boolean;
+  styles: Record<string, string>;
+  textContent: string | null;
 }
 
 export class NodeWrapper implements NodeWrapperInterface {
@@ -34,6 +37,9 @@ export class NodeWrapper implements NodeWrapperInterface {
   id: string
   selectors: string[] = []
   coordinates: { x: number, y: number } = { x: 0, y: 0 }
+  isSimplicity: boolean = false
+  styles: Record<string, string> = {}
+  textContent: string | null = null
 
   constructor(node: HTMLElement) {
     this.current = node
@@ -41,14 +47,53 @@ export class NodeWrapper implements NodeWrapperInterface {
   }
 
   create() {
-    this.current.dataset['ov-selector-id'] = this.id
+    this.current.dataset['1VSelectorId'] = this.id
+
+    this.isSimplicity = this.current.childElementCount === 0
+    this.textContent = this.current.textContent
 
     this.createSelectors()
     this.createCoordinates()
+    this.createStylesMap()
   }
 
   createSelectors() {
     this.selectors = Array.from(this.current.classList) // TODO
+
+    const generatePath = () => {
+      const stack = []
+      let el: any = this.current!
+
+      while(el.parentNode) {
+        const siblings = el.parentNode.childNodes
+
+        let elementIndex = 0
+        let sibCount = 0
+
+        // eslint-disable-next-line no-loop-func
+        siblings.forEach((sib: any) => {
+          if (sib.nodeName === el.nodeName){
+            if (el === sib) elementIndex = sibCount
+            sibCount++
+          } 
+        })
+
+        if (el.hasAttribute('id') && el.id !== '') {
+          stack.unshift(el.nodeName.toLowerCase() + '#' + el.id);
+        } else if ( sibCount > 1 ) {
+          stack.unshift(el.nodeName.toLowerCase() + ':nth-child(' + ++elementIndex + ')');
+        } else if (el.classList.length && el.classList.toString().split(' ').join('.') !== '') {
+          stack.unshift(el.nodeName.toLowerCase() + '.' + el.classList.toString().split(' ').join('.'));
+        } else {
+          stack.unshift(el.nodeName.toLowerCase());
+        }
+
+
+        el = el.parentNode
+      }
+
+      return stack.slice(1).join(' > ')
+    }
   }
 
   createCoordinates() {
@@ -56,5 +101,15 @@ export class NodeWrapper implements NodeWrapperInterface {
       x: this.current.offsetLeft,
       y: this.current.offsetTop
     }
+  }
+
+  createStylesMap() {
+    const elementStyles: Record<string, any> = window.getComputedStyle(this.current, null)
+
+    const allStyles = Object.keys(STYLES_CONFIG)
+
+    this.styles = allStyles.reduce((acc, style) => ({ ...acc, [style]: elementStyles[style] }), {})
+
+    for (let i = 0; i < this.current.attributes.length; i++) console.log(this.current.attributes[i])
   }
 }
