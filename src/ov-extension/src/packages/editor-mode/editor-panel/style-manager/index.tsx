@@ -3,9 +3,10 @@ import React, { useEffect, useContext, useState } from "react";
 import { EditorContext } from "../../../../store/editor-context";
 import { Input, ColorPicker } from "../../components";
 import { SECTORS_CONFIG, StyleType } from './stylesConfig'
+import { commandManager, EditStyleCommand } from "../../lib/command-service";
 
 const ViewsManager = () => {
-  const { elementInformation, elementRef } = useContext(EditorContext);
+  const { editedElementRef } = useContext(EditorContext);
   
   const [styleState, styleStateSetter] = useState({} as stylesReduceType);
   
@@ -15,13 +16,14 @@ const ViewsManager = () => {
   };
 
   useEffect(() => {
-    if (!(elementInformation && Object.keys(elementInformation).length)) return;
+    if (!(editedElementRef.current && Object.keys(editedElementRef.current.styles).length)) return;
 
-    const initialGeneralState = elementInformation
+    const initialGeneralState = editedElementRef.current.styles
 
+    // @ts-ignore TODO need global styles fix
     styleStateSetter({ ...initialGeneralState });
 
-  }, [elementInformation]);
+  }, [editedElementRef.current]);
 
   const onStyleChange = (e: any) => {
     const { name, value } = e.target;
@@ -32,53 +34,22 @@ const ViewsManager = () => {
   const changeElementStyle = (e: any) => {
     const { name }: { name: StyleType } = e.target;
 
-    if (!elementRef.current) return
-    if (elementRef.current.style[name] === styleState[name]) return
+    if (!editedElementRef.current) return
+    if (editedElementRef.current.styles[name] === styleState[name]) return
 
-    const generatePath = () => {
-      const stack = []
-      let el: any = elementRef.current!
+    const changedData = { parameter: name, value: styleState[name] }
+    const command = new EditStyleCommand(editedElementRef.current, changedData)
 
-      while(el.parentNode) {
-        const siblings = el.parentNode.childNodes
+    commandManager.executeCommand(command)
+    // const tagPath = generatePath()
 
-        let elementIndex = 0
-        let sibCount = 0
+    // localStorage.setItem('#123', tagPath)
 
-        // eslint-disable-next-line no-loop-func
-        siblings.forEach((sib: any) => {
-          if (sib.nodeName === el.nodeName){
-            if (el === sib) elementIndex = sibCount
-            sibCount++
-          } 
-        })
+    // if (name in styleState) {
+    //   elementRef.current.style[name] = styleState[name];
 
-        if (el.hasAttribute('id') && el.id !== '') {
-          stack.unshift(el.nodeName.toLowerCase() + '#' + el.id);
-        } else if ( sibCount > 1 ) {
-          stack.unshift(el.nodeName.toLowerCase() + ':nth-child(' + ++elementIndex + ')');
-        } else if (el.classList.length && el.classList.toString().split(' ').join('.') !== '') {
-          stack.unshift(el.nodeName.toLowerCase() + '.' + el.classList.toString().split(' ').join('.'));
-        } else {
-          stack.unshift(el.nodeName.toLowerCase());
-        }
-
-
-        el = el.parentNode
-      }
-
-      return stack.slice(1).join(' > ')
-    }
-
-    const tagPath = generatePath()
-
-    localStorage.setItem('#123', tagPath)
-
-    if (name in styleState) {
-      elementRef.current.style[name] = styleState[name];
-
-      console.log(elementRef.current.style.cssText)
-    }
+    //   console.log(elementRef.current.style.cssText)
+    // }
   };
 
   return (

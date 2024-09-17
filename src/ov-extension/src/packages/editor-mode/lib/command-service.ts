@@ -87,6 +87,8 @@ class CommandManager {
   }
 }
 
+export const commandManager = new CommandManager();
+
 export class EditTextCommand implements CommandInterface {
   data: CommandItem
   node: NodeWrapperInterface
